@@ -82,7 +82,7 @@ struct MainTabs: View {
                 DetectView(model: model)
             }
             Tab("Report", systemImage: "list.clipboard.fill", value: 1) {
-                ReportTab(store: store)
+                ReportTab(store: store, family: model.family)
             }
             .badge(store.walkHazards.filter { $0.status == .pending }.count)
             Tab("Map", systemImage: "map.fill", value: 2) {

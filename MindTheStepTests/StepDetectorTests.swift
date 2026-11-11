@@ -169,4 +169,20 @@ final class StepDetectorTests: XCTestCase {
         XCTAssertNil(t.update(step, now: 0.06), "cooldown")
         XCTAssertNotNil(t.update(step, now: 3.5))
     }
+
+    func testAINarratorFactsUseOnlyLoggedData() {
+        let start = Date(timeIntervalSince1970: 0)
+        let hs = [
+            Hazard(date: start.addingTimeInterval(60), up: false, heightCm: 20, distanceM: 2.3, isStairs: false),
+            Hazard(date: start.addingTimeInterval(120), up: true, heightCm: 18, distanceM: 2.1, isStairs: true),
+            Hazard(date: start.addingTimeInterval(180), up: false, heightCm: 43, distanceM: 0.8, isStairs: true, status: .dismissed),
+        ]
+        let summary = WalkSummary(start: start, hazards: hs)
+        let facts = WalkNarrator.facts(summary: summary, hazards: hs, now: start.addingTimeInterval(600))
+        XCTAssertTrue(facts.contains("about 10 minutes"))
+        XCTAssertTrue(facts.contains("warned about: 2"))
+        XCTAssertTrue(facts.contains("Largest drop: 20 cm"))
+        XCTAssertFalse(facts.contains("43"), "false alarms must not reach the model")
+        XCTAssertFalse(WalkNarrator.fallback(summary: summary, hazards: hs).isEmpty)
+    }
 }

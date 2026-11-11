@@ -18,6 +18,7 @@
 		835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A529FC5D815EC58326826C5 /* ContentView.swift */; };
 		939DED2D37B9B7586C8CAD74 /* FamilyNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4A9F132D27106D5E47D613 /* FamilyNotifier.swift */; };
 		9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */; };
+		DA5FD719D23144D016FB29E9 /* AISummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E646E311C22D7999F07C2807 /* AISummary.swift */; };
 		F26D15A1FDB3EF3B405880AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7B492948E59C1E9EB7ECD14 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 		D2461BAE670353A455FE0D0E /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		D7B492948E59C1E9EB7ECD14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF78D6F5B5163243B6A806FD /* StepDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetector.swift; sourceTree = "<group>"; };
+		E646E311C22D7999F07C2807 /* AISummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISummary.swift; sourceTree = "<group>"; };
 		EF4A9F132D27106D5E47D613 /* FamilyNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyNotifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +64,7 @@
 		2A1FA9EFA8F41C5A9BD31C28 /* MindTheStep */ = {
 			isa = PBXGroup;
 			children = (
+				E646E311C22D7999F07C2807 /* AISummary.swift */,
 				1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */,
 				012F543AFF6AC43BAA46C518 /* AppModel.swift */,
 				D7B492948E59C1E9EB7ECD14 /* Assets.xcassets */,
@@ -189,6 +192,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA5FD719D23144D016FB29E9 /* AISummary.swift in Sources */,
 				35513338B72B082F5ED607B3 /* AlertPlayer.swift in Sources */,
 				743115748D5130CD7AAF1A4D /* AppModel.swift in Sources */,
 				835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */,

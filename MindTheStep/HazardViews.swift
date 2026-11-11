@@ -6,6 +6,7 @@ import SwiftUI
 /// Today's walk at a glance, shareable with family, plus every hazard to review.
 struct ReportTab: View {
     @ObservedObject var store: HazardStore
+    @ObservedObject var family: FamilyNotifier
     @State private var confirmClear = false
 
     var body: some View {
@@ -16,6 +17,9 @@ struct ReportTab: View {
                     SummaryCard(summary: summary)
                         .listRowInsets(EdgeInsets())
                         .listRowBackground(Color.clear)
+                }
+                Section {
+                    AISummaryCard(store: store, family: family)
                 }
                 Section {
                     ShareLink(item: renderImage(summary), message: Text(summary.shareText),
