@@ -7,6 +7,9 @@ struct DepthFrameOutput {
     var headingOK: Bool
     /// Cheap fingerprint used to count genuinely new depth frames.
     var fingerprint: Float
+    /// Camera position on the ground plane (world x, z) and unit walking heading, for AR markers.
+    var cameraXZ = SIMD2<Float>(0, 0)
+    var heading = SIMD2<Float>(0, -1)
 }
 
 /// Converts ARKit LiDAR depth into gravity-aligned ground samples along the walking corridor.
@@ -70,6 +73,7 @@ enum DepthProcessor {
                 out.append(GroundSample(forward: f, height: pw.y))  // ARKit world +y is up (gravity-aligned)
             }
         }
-        return DepthFrameOutput(samples: out, headingOK: true, fingerprint: fingerprint)
+        return DepthFrameOutput(samples: out, headingOK: true, fingerprint: fingerprint,
+                                cameraXZ: SIMD2<Float>(cam.x, cam.z), heading: heading)
     }
 }

@@ -1,5 +1,6 @@
 import ARKit
 import QuartzCore
+import RealityKit
 import SwiftUI
 
 /// Owns the AR session. Depth processing runs on a private queue; UI updates hop to main.
@@ -12,6 +13,7 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     @Published var alertLatencyMs: Double = 0
     @Published var tracking = "—"
     @Published var points = 0
+    @Published var showDiagnostics = false
     @Published var thresholdCm: Double = 8 {
         didSet {
             let v = Float(thresholdCm / 100)
@@ -22,6 +24,8 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
 
     let supported = ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth)
     let session = ARSession()
+    /// A glowing line drawn on the real step edge.
+    let markerAnchor = AnchorEntity(world: .zero)
 
     private let queue = DispatchQueue(label: "mindthestep.depth", qos: .userInteractive)
     private var detector = StepDetector()
@@ -31,6 +35,21 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     private var uniqueFrames = 0
     private var fpsWindowStart = CACurrentMediaTime()
     private var lastPublish: CFTimeInterval = 0
+    private var lastStepSeen: CFTimeInterval = 0
+    private let markerLine: ModelEntity
+    private let markerGlow: ModelEntity
+
+    override init() {
+        markerLine = ModelEntity(mesh: .generateBox(width: 0.7, height: 0.008, depth: 0.035),
+                                 materials: [UnlitMaterial(color: .systemRed)])
+        markerGlow = ModelEntity(mesh: .generateBox(width: 0.7, height: 0.004, depth: 0.25),
+                                 materials: [UnlitMaterial(color: UIColor.systemRed.withAlphaComponent(0.25))])
+        markerGlow.position.z = 0.125  // glow trails back toward the user
+        super.init()
+        markerAnchor.addChild(markerLine)
+        markerAnchor.addChild(markerGlow)
+        markerAnchor.isEnabled = false
+    }
 
     func start() {
         guard supported else { return }
@@ -48,6 +67,7 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
 
         var r: DetectionResult
         var count = 0
+        var marker: (position: SIMD3<Float>, yaw: Float)?
         if let out = DepthProcessor.groundSamples(frame: frame) {
             if out.fingerprint != lastFingerprint {
                 uniqueFrames += 1
@@ -57,6 +77,11 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
             r = out.headingOK
                 ? detector.analyze(out.samples)
                 : DetectionResult(kind: .unknown, reason: "Tilt the phone forward")
+            if r.kind == .stepUp || r.kind == .stepDown {
+                let xz = out.cameraXZ + out.heading * r.distanceM
+                marker = (SIMD3<Float>(xz.x, r.edgeHeightM + 0.01, xz.y),
+                          atan2(-out.heading.x, -out.heading.y))
+            }
         } else {
             r = DetectionResult(kind: .unknown, reason: "No depth this frame")
         }
@@ -71,7 +96,9 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
             uniqueFrames = 0
             fpsWindowStart = t1
         }
-        guard confirmed != nil || t1 - lastPublish > 0.05 else { return }
+        if marker != nil { lastStepSeen = t1 }
+        let hideMarker = marker == nil && t1 - lastStepSeen > 0.6
+        guard confirmed != nil || marker != nil || t1 - lastPublish > 0.05 else { return }
         lastPublish = t1
 
         DispatchQueue.main.async { [weak self] in
@@ -81,6 +108,8 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
             self.tracking = trackingText
             self.points = count
             if let fps { self.depthFPS = fps }
+            if let m = marker { self.placeMarker(m.position, yaw: m.yaw, major: abs(r.heightCm) > 15) }
+            if hideMarker { self.markerAnchor.isEnabled = false }
             if let c = confirmed {
                 self.alerts.alert(c)
                 self.lastAlert = c
@@ -88,6 +117,15 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
                 self.alertLatencyMs = latencyMs
             }
         }
+    }
+
+    private func placeMarker(_ p: SIMD3<Float>, yaw: Float, major: Bool) {
+        let color: UIColor = major ? .systemRed : .systemOrange
+        markerLine.model?.materials = [UnlitMaterial(color: color)]
+        markerGlow.model?.materials = [UnlitMaterial(color: color.withAlphaComponent(0.25))]
+        markerAnchor.position = p
+        markerAnchor.orientation = simd_quatf(angle: yaw, axis: [0, 1, 0])
+        markerAnchor.isEnabled = true
     }
 
     private static func describe(_ s: ARCamera.TrackingState) -> String {

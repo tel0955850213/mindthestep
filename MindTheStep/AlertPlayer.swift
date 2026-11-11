@@ -22,7 +22,8 @@ final class AlertPlayer {
             let major = abs(r.heightCm) > 15
             pulse(heavy, times: major ? 3 : 2)
             let cm = Int(abs(r.heightCm).rounded())
-            speak("\(r.kind == .stepUp ? "Step up" : "Step down"), \(cm).")
+            let dir = r.kind == .stepUp ? "up" : "down"
+            speak(r.isStairs ? "Stairs \(dir)." : "Step \(dir), \(cm).")
         case .unknown:
             light.impactOccurred()
         case .clear, .ramp:
