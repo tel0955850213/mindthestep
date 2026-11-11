@@ -26,6 +26,11 @@ struct DetectionResult: Equatable {
     var profileCm: [Float?] = []
     var binSize: Float = 0.05
     var minForward: Float = 0.3
+    /// Two or more steps the same way in a row.
+    var isStairs = false
+    /// World height of the ground reference and of the step's upper surface (for AR markers).
+    var groundRefM: Float = 0
+    var edgeHeightM: Float = 0
 
     static let empty = DetectionResult(kind: .unknown, reason: "Waiting for depth")
 }
@@ -51,6 +56,12 @@ struct DetectorConfig {
     /// If visible ground ends this close, what lies beyond is UNKNOWN (often a hidden drop-off).
     var unknownWithin: Float = 1.8
     var rampSlope: Float = 0.06
+    /// A bin whose 10th–90th percentile heights differ more than this is a vertical face, not ground.
+    var maxBinSpread: Float = 0.07
+    /// Each side of a step must be a flat surface over this many bins (15 cm)...
+    var flatBins = 3
+    /// ...varying by no more than this.
+    var maxFlatRange: Float = 0.05
 }
 
 /// Pure geometry: turns one frame of ground samples into a hazard decision.
@@ -86,10 +97,15 @@ struct StepDetector {
         }
         let ref = median(provisionalValid.prefix(c.referenceBins).map { provisional[$0]! })
 
-        // 2. Drop points that clearly aren't walking surface (walls, boxes, people).
+        // 2. Keep only walkable surface: drop walls/objects far above the reference, and drop
+        //    "mixed" bins whose heights spread widely (vertical faces such as risers or the
+        //    wall at the bottom of a staircase). Those used to masquerade as false step-ups.
         let medians: [Float?] = bins.map { hs in
-            let kept = hs.filter { $0 - ref <= c.maxAboveGround && ref - $0 <= c.maxBelowGround }
-            return kept.count >= c.minPointsPerBin ? median(kept) : nil
+            let kept = hs.filter { $0 - ref <= c.maxAboveGround && ref - $0 <= c.maxBelowGround }.sorted()
+            guard kept.count >= c.minPointsPerBin else { return nil }
+            let p10 = kept[kept.count / 10], p90 = kept[(kept.count * 9) / 10]
+            guard p90 - p10 <= c.maxBinSpread else { return nil }
+            return median(kept)
         }
         let profile = medians.map { $0.map { ($0 - ref) * 100 } }
         let valid: [(i: Int, h: Float)] = medians.indices.compactMap { i in medians[i].map { (i, $0) } }
@@ -97,39 +113,21 @@ struct StepDetector {
             return base(.unknown, "Not enough ground points", profile: profile)
         }
 
-        // 3. Nearest abrupt height change with support on both sides.
-        for j in 1..<valid.count {
-            let before = valid[max(0, j - c.windowBins)..<j]
-            let after = valid[j..<min(valid.count, j + c.windowBins)]
-            guard before.count >= c.minValidInWindow, after.count >= c.minValidInWindow else { continue }
-            let d = median(after.map { $0.h }) - median(before.map { $0.h })
-            guard abs(d) >= c.stepThreshold else { continue }
-
-            // Locate the sharpest single jump around here.
-            var edge = j
-            var maxJump: Float = 0
-            var occluded = false
-            let upper = min(valid.count - 1, j + c.windowBins - 1)
-            for k in max(1, j - 1)...upper {
-                let jump = abs(valid[k].h - valid[k - 1].h)
-                let gap = valid[k].i - valid[k - 1].i > 1
-                if jump > maxJump { maxJump = jump; edge = k; occluded = gap }
+        // 3. Nearest abrupt height change between two flat surfaces.
+        if let s = findStep(in: valid, from: 1) {
+            var r = base(s.height > 0 ? .stepUp : .stepDown,
+                         s.occluded ? "Edge partly hidden" : "", profile: profile)
+            r.heightCm = s.height * 100
+            r.distanceM = forward(ofBin: valid[s.edge].i)
+            r.confidence = s.support * (s.occluded ? 0.8 : 1)
+            r.groundRefM = ref
+            r.edgeHeightM = s.upperHeight
+            // Another step the same way within ~70 cm means stairs.
+            if let next = findStep(in: valid, from: s.edge + 1),
+               (next.height > 0) == (s.height > 0),
+               forward(ofBin: valid[next.edge].i) - r.distanceM <= 0.7 {
+                r.isStairs = true
             }
-            guard maxJump >= c.abruptFraction * abs(d) else { continue }  // gradual: ramp, not a step
-
-            // Re-measure the height with windows anchored on the edge itself.
-            let near = valid[max(0, edge - c.windowBins)..<edge]
-            let far = valid[edge..<min(valid.count, edge + c.windowBins)]
-            guard near.count >= c.minValidInWindow, far.count >= c.minValidInWindow else { continue }
-            let height = median(far.map { $0.h }) - median(near.map { $0.h })
-            guard abs(height) >= c.stepThreshold else { continue }
-
-            let support = Float(near.count + far.count) / Float(2 * c.windowBins)
-            var r = base(height > 0 ? .stepUp : .stepDown,
-                         occluded ? "Edge partly hidden" : "", profile: profile)
-            r.heightCm = height * 100
-            r.distanceM = forward(ofBin: valid[edge].i)
-            r.confidence = min(1, support) * (occluded ? 0.8 : 1)
             return r
         }
 
@@ -147,7 +145,57 @@ struct StepDetector {
         var r = base(abs(slope) >= c.rampSlope ? .ramp : .clear, "", profile: profile)
         r.slopePercent = slope * 100
         r.confidence = min(1, Float(valid.count) / Float(binCount))
+        r.groundRefM = ref
         return r
+    }
+
+    struct Step {
+        var edge: Int          // index into `valid` of the first bin past the edge
+        var height: Float      // metres, signed
+        var occluded: Bool
+        var support: Float
+        var upperHeight: Float // world height of the higher surface (for the AR marker)
+    }
+
+    /// Finds the nearest abrupt height change at or after `start` where both sides are flat.
+    func findStep(in valid: [(i: Int, h: Float)], from start: Int) -> Step? {
+        let c = config
+        guard start < valid.count else { return nil }
+        for j in max(1, start)..<valid.count {
+            let before = valid[max(0, j - c.windowBins)..<j]
+            let after = valid[j..<min(valid.count, j + c.windowBins)]
+            guard before.count >= c.minValidInWindow, after.count >= c.minValidInWindow else { continue }
+            let d = median(after.map { $0.h }) - median(before.map { $0.h })
+            guard abs(d) >= c.stepThreshold else { continue }
+
+            // Locate the sharpest single jump around here.
+            var edge = j
+            var maxJump: Float = 0
+            var occluded = false
+            let upper = min(valid.count - 1, j + c.windowBins - 1)
+            for k in max(1, j - 1)...upper {
+                let jump = abs(valid[k].h - valid[k - 1].h)
+                if jump > maxJump { maxJump = jump; edge = k; occluded = valid[k].i - valid[k - 1].i > 1 }
+            }
+            guard maxJump >= c.abruptFraction * abs(d) else { continue }  // gradual: ramp, not a step
+
+            // Re-measure with windows anchored on the edge; both sides must be flat surfaces.
+            let near = Array(valid[max(0, edge - c.windowBins)..<edge])
+            let far = Array(valid[edge..<min(valid.count, edge + c.flatBins)])
+            guard near.count >= c.minValidInWindow, far.count >= c.minValidInWindow else { continue }
+            let nearTail = near.suffix(c.flatBins).map { $0.h }
+            let farHead = far.map { $0.h }
+            guard (nearTail.max()! - nearTail.min()!) <= c.maxFlatRange,
+                  (farHead.max()! - farHead.min()!) <= c.maxFlatRange else { continue }
+            let nearH = median(nearTail), farH = median(farHead)
+            let height = farH - nearH
+            guard abs(height) >= c.stepThreshold else { continue }
+
+            let support = min(1, Float(near.count + far.count) / Float(c.windowBins + c.flatBins))
+            return Step(edge: edge, height: height, occluded: occluded, support: support,
+                        upperHeight: max(nearH, farH))
+        }
+        return nil
     }
 }
 

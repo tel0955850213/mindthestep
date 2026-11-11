@@ -78,6 +78,57 @@ final class StepDetectorTests: XCTestCase {
         XCTAssertEqual(r.kind, .unknown)
     }
 
+    /// Like `samples`, but each distance can return many heights (to model vertical faces).
+    private func multi(_ heights: (Float) -> [Float]) -> [GroundSample] {
+        var out: [GroundSample] = []
+        var i = 0
+        var f: Float = 0.3
+        while f < 2.5 {
+            for h in heights(f) {
+                out.append(GroundSample(forward: f, height: h + noise(i)))
+                i += 1
+            }
+            f += 0.025
+        }
+        return out
+    }
+
+    private func flat(_ h: Float) -> [Float] { Array(repeating: h, count: 20) }
+    private func wall(from lo: Float, to hi: Float) -> [Float] {
+        (0..<20).map { lo + (hi - lo) * Float($0) / 19 }
+    }
+
+    func testDescendingStairsWithWallAtBottomIsStepDownNotUp() {
+        // Field test 2: the wall at the foot of the stairs used to read as a false "step up".
+        let r = StepDetector().analyze(multi { f in
+            switch f {
+            case ..<1.0: return self.flat(0)
+            case ..<1.3: return self.flat(-0.17)
+            case ..<1.6: return self.flat(-0.34)
+            default: return self.wall(from: -0.6, to: 0.4)
+            }
+        })
+        XCTAssertEqual(r.kind, .stepDown)
+        XCTAssertEqual(r.heightCm, -17, accuracy: 3)
+        XCTAssertTrue(r.isStairs)
+    }
+
+    func testWallRisingFromFloorIsNotAStepUp() {
+        let r = StepDetector().analyze(multi { f in
+            f < 1.5 ? self.flat(0) : self.wall(from: 0, to: 0.4)
+        })
+        XCTAssertNotEqual(r.kind, .stepUp)
+    }
+
+    func testAscendingStairsAreStairs() {
+        let r = StepDetector().analyze(samples { f in
+            f < 0.9 ? 0 : (f < 1.2 ? 0.18 : (f < 1.5 ? 0.36 : 0.54))
+        })
+        XCTAssertEqual(r.kind, .stepUp)
+        XCTAssertEqual(r.heightCm, 18, accuracy: 3)
+        XCTAssertTrue(r.isStairs)
+    }
+
     func testTrackerNeedsPersistenceAndCoolsDown() {
         var t = StepTracker()
         let step = DetectionResult(kind: .stepDown, heightCm: -15, distanceM: 1.2)
