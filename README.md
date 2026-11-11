@@ -8,7 +8,7 @@ Built in one evening at **c0mpiled-18 (YC Startup School Hackathon, Taipei, 2026
 
 ![How it works](docs/how-it-works.jpg)
 
-**Demo video:** _link added at submission_
+**▶ Demo video (1:50):** https://youtu.be/XT80odwnBWA
 
 ---
 
