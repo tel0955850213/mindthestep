@@ -1,0 +1,50 @@
+name: MindTheStep
+options:
+  bundleIdPrefix: com.donaldlin
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    DEVELOPMENT_TEAM: 9A686AFY6S
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1"
+    CURRENT_PROJECT_VERSION: "1"
+    SWIFT_VERSION: "5.0"
+targets:
+  MindTheStep:
+    type: application
+    platform: iOS
+    sources: [MindTheStep]
+    info:
+      path: MindTheStep/Info.plist
+      properties:
+        CFBundleDisplayName: MindTheStep
+        CFBundleShortVersionString: "$(MARKETING_VERSION)"
+        CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
+        NSCameraUsageDescription: "MindTheStep uses the camera and LiDAR to detect steps and drop-offs ahead of you."
+        UIRequiredDeviceCapabilities: [arkit]
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UIApplicationSupportsIndirectInputEvents: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.donaldlin.mindthestep
+        TARGETED_DEVICE_FAMILY: "1"
+  MindTheStepTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources: [MindTheStepTests]
+    dependencies:
+      - target: MindTheStep
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
+        PRODUCT_BUNDLE_IDENTIFIER: com.donaldlin.mindthestep.tests
+schemes:
+  MindTheStep:
+    build:
+      targets:
+        MindTheStep: all
+        MindTheStepTests: [test]
+    test:
+      targets: [MindTheStepTests]

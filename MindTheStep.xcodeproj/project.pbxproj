@@ -1,0 +1,419 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		11B4D2F487B81C14A9259A59 /* StepDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78D6F5B5163243B6A806FD /* StepDetector.swift */; };
+		35513338B72B082F5ED607B3 /* AlertPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */; };
+		4C94CEDE91350AFF82C36228 /* DepthProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8788A36F99663444E2F9 /* DepthProcessor.swift */; };
+		4FC255F7CAF3B6D29BA637FC /* StepDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400F530B7107EDE257D8E66F /* StepDetectorTests.swift */; };
+		743115748D5130CD7AAF1A4D /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012F543AFF6AC43BAA46C518 /* AppModel.swift */; };
+		835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A529FC5D815EC58326826C5 /* ContentView.swift */; };
+		9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		BB9AAED175DF9EF99E9B9092 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9FB089B2B9B6957BF547C81 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE336EDE250364EE794CD661;
+			remoteInfo = MindTheStep;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		012F543AFF6AC43BAA46C518 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		1A529FC5D815EC58326826C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPlayer.swift; sourceTree = "<group>"; };
+		3BD54A7ABF248BBB17B22271 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		400F530B7107EDE257D8E66F /* StepDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetectorTests.swift; sourceTree = "<group>"; };
+		493D8788A36F99663444E2F9 /* DepthProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthProcessor.swift; sourceTree = "<group>"; };
+		7832D5D178AB399BF70AA8AA /* MindTheStepTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MindTheStepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A80D79FD769B6BF7AF15EDCC /* MindTheStep.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MindTheStep.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindTheStepApp.swift; sourceTree = "<group>"; };
+		DF78D6F5B5163243B6A806FD /* StepDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetector.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		170B40998AF284EA27A1532D = {
+			isa = PBXGroup;
+			children = (
+				2A1FA9EFA8F41C5A9BD31C28 /* MindTheStep */,
+				450283203ED36973420B98E2 /* MindTheStepTests */,
+				FFC4E9193DDBBEFD87B68CE6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2A1FA9EFA8F41C5A9BD31C28 /* MindTheStep */ = {
+			isa = PBXGroup;
+			children = (
+				1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */,
+				012F543AFF6AC43BAA46C518 /* AppModel.swift */,
+				1A529FC5D815EC58326826C5 /* ContentView.swift */,
+				493D8788A36F99663444E2F9 /* DepthProcessor.swift */,
+				3BD54A7ABF248BBB17B22271 /* Info.plist */,
+				B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */,
+				DF78D6F5B5163243B6A806FD /* StepDetector.swift */,
+			);
+			path = MindTheStep;
+			sourceTree = "<group>";
+		};
+		450283203ED36973420B98E2 /* MindTheStepTests */ = {
+			isa = PBXGroup;
+			children = (
+				400F530B7107EDE257D8E66F /* StepDetectorTests.swift */,
+			);
+			path = MindTheStepTests;
+			sourceTree = "<group>";
+		};
+		FFC4E9193DDBBEFD87B68CE6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A80D79FD769B6BF7AF15EDCC /* MindTheStep.app */,
+				7832D5D178AB399BF70AA8AA /* MindTheStepTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE336EDE250364EE794CD661 /* MindTheStep */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E5C65E2E8BDC31E75E4A2EA /* Build configuration list for PBXNativeTarget "MindTheStep" */;
+			buildPhases = (
+				AAB945E3B9CCE1DAC874D153 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MindTheStep;
+			packageProductDependencies = (
+			);
+			productName = MindTheStep;
+			productReference = A80D79FD769B6BF7AF15EDCC /* MindTheStep.app */;
+			productType = "com.apple.product-type.application";
+		};
+		E01350E3A21AF087804EFB5D /* MindTheStepTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F3B555EDFA332FD3C3EC292 /* Build configuration list for PBXNativeTarget "MindTheStepTests" */;
+			buildPhases = (
+				C89366C1F06DB57B67966E89 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A16EB2EFEE6F538A8E8994C9 /* PBXTargetDependency */,
+			);
+			name = MindTheStepTests;
+			packageProductDependencies = (
+			);
+			productName = MindTheStepTests;
+			productReference = 7832D5D178AB399BF70AA8AA /* MindTheStepTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A9FB089B2B9B6957BF547C81 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					CE336EDE250364EE794CD661 = {
+						DevelopmentTeam = 9A686AFY6S;
+						ProvisioningStyle = Automatic;
+					};
+					E01350E3A21AF087804EFB5D = {
+						DevelopmentTeam = 9A686AFY6S;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = A575ED3D445DBA32A2B5BE4F /* Build configuration list for PBXProject "MindTheStep" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 170B40998AF284EA27A1532D;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = FFC4E9193DDBBEFD87B68CE6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE336EDE250364EE794CD661 /* MindTheStep */,
+				E01350E3A21AF087804EFB5D /* MindTheStepTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AAB945E3B9CCE1DAC874D153 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35513338B72B082F5ED607B3 /* AlertPlayer.swift in Sources */,
+				743115748D5130CD7AAF1A4D /* AppModel.swift in Sources */,
+				835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */,
+				4C94CEDE91350AFF82C36228 /* DepthProcessor.swift in Sources */,
+				9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */,
+				11B4D2F487B81C14A9259A59 /* StepDetector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C89366C1F06DB57B67966E89 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FC255F7CAF3B6D29BA637FC /* StepDetectorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A16EB2EFEE6F538A8E8994C9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE336EDE250364EE794CD661 /* MindTheStep */;
+			targetProxy = BB9AAED175DF9EF99E9B9092 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		05CB00C816436AB9822EFD8B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donaldlin.mindthestep.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MindTheStep.app/MindTheStep";
+			};
+			name = Debug;
+		};
+		0C7C27BA16B24494D0A6146F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 9A686AFY6S;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2ACC5FEF2FA515556EBAED72 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 9A686AFY6S;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MARKETING_VERSION = 0.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		61CF88E6149E8C9976AC26A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = MindTheStep/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donaldlin.mindthestep;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		AB12DACED2C07D63DA56602D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = MindTheStep/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donaldlin.mindthestep;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		D9A050E3095988C6B54C6C82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.donaldlin.mindthestep.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MindTheStep.app/MindTheStep";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0E5C65E2E8BDC31E75E4A2EA /* Build configuration list for PBXNativeTarget "MindTheStep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB12DACED2C07D63DA56602D /* Debug */,
+				61CF88E6149E8C9976AC26A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4F3B555EDFA332FD3C3EC292 /* Build configuration list for PBXNativeTarget "MindTheStepTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				05CB00C816436AB9822EFD8B /* Debug */,
+				D9A050E3095988C6B54C6C82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A575ED3D445DBA32A2B5BE4F /* Build configuration list for PBXProject "MindTheStep" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2ACC5FEF2FA515556EBAED72 /* Debug */,
+				0C7C27BA16B24494D0A6146F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A9FB089B2B9B6957BF547C81 /* Project object */;
+}
