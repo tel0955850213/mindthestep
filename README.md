@@ -1,5 +1,12 @@
 # MindTheStep
 
+![Swift](https://img.shields.io/badge/Swift-5-F05138?logo=swift&logoColor=white)
+![iOS](https://img.shields.io/badge/iOS-ARKit%20LiDAR-000000?logo=apple&logoColor=white)
+![Apple Intelligence](https://img.shields.io/badge/Apple%20Intelligence-on--device-8A4FFF)
+![Tests](https://img.shields.io/badge/unit%20tests-19%20passing-2EA44F)
+![Latency](https://img.shields.io/badge/alert%20latency-~45%20ms-orange)
+![Built at](https://img.shields.io/badge/built%20at-c0mpiled--18%20Taipei-E8613C)
+
 **Warned before the step, not after the fall.**
 
 MindTheStep turns a LiDAR iPhone, worn on the chest or clipped to a cane, into an early warning for older adults. It sees steps, curbs and stairs 0.3–2.5 m ahead and warns with a buzz, a short voice cue and a red frame before the person gets there. Big steps also send a real-time alert to a family member, and every walk ends with a report, a hazard map and a short note for the family written by Apple's on-device AI.
@@ -66,6 +73,22 @@ Every fix below came from walking real streets and stairs tonight, then writing 
 | 4 · standing still | Red frame kept flashing on "can't see ground" | Only real steps trigger the red frame; usage states stay quiet |
 
 19 unit tests cover drops, step-ups, occluded curbs, ramps, walls, chair seats, bags, stairs, the tracker, and the facts given to the AI.
+
+## Built tonight: the commit log
+
+From empty repo to working app in under four hours, every step tested on a real street:
+
+```text
+19:05  feat  real-time LiDAR step detector, haptic + voice alerts
+19:16  fix   wall at the foot of the stairs read as a step up      ← field test 2
+19:20  feat  senior-first UI, AR line on the real edge
+19:27  feat  hazard memory, tape-measure check, family summary
+19:35  fix   chairs, bags and people no longer read as stairs      ← field test 3
+19:40  feat  red alert frame + real push alerts to family
+19:47  fix   red frame only for real steps                         ← field test 4
+19:53  feat  four-tab app, onboarding, family alert log, icon
+20:55  feat  caregiver note written by on-device Apple Intelligence
+```
 
 ## Privacy
 
