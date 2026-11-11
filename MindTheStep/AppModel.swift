@@ -45,11 +45,11 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     private let markerGlow: ModelEntity
 
     override init() {
-        markerLine = ModelEntity(mesh: .generateBox(width: 0.7, height: 0.008, depth: 0.035),
+        markerLine = ModelEntity(mesh: .generateBox(width: 0.5, height: 0.006, depth: 0.025),
                                  materials: [UnlitMaterial(color: .systemRed)])
-        markerGlow = ModelEntity(mesh: .generateBox(width: 0.7, height: 0.004, depth: 0.25),
-                                 materials: [UnlitMaterial(color: UIColor.systemRed.withAlphaComponent(0.25))])
-        markerGlow.position.z = 0.125  // glow trails back toward the user
+        markerGlow = ModelEntity(mesh: .generateBox(width: 0.5, height: 0.003, depth: 0.06),
+                                 materials: [UnlitMaterial(color: UIColor.systemRed.withAlphaComponent(0.2))])
+        markerGlow.position.z = 0.03  // thin halo just on the user's side of the edge
         super.init()
         markerAnchor.addChild(markerLine)
         markerAnchor.addChild(markerGlow)
@@ -91,7 +91,7 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
             }
             count = out.samples.count
             r = out.headingOK
-                ? detector.analyze(out.samples)
+                ? detector.analyze(out.samples, cameraY: out.cameraY)
                 : DetectionResult(kind: .unknown, reason: "Tilt the phone forward")
             if r.kind == .stepUp || r.kind == .stepDown {
                 let xz = out.cameraXZ + out.heading * r.distanceM
@@ -141,7 +141,7 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     private func placeMarker(_ p: SIMD3<Float>, yaw: Float, major: Bool) {
         let color: UIColor = major ? .systemRed : .systemOrange
         markerLine.model?.materials = [UnlitMaterial(color: color)]
-        markerGlow.model?.materials = [UnlitMaterial(color: color.withAlphaComponent(0.25))]
+        markerGlow.model?.materials = [UnlitMaterial(color: color.withAlphaComponent(0.2))]
         markerAnchor.position = p
         markerAnchor.orientation = simd_quatf(angle: yaw, axis: [0, 1, 0])
         markerAnchor.isEnabled = true

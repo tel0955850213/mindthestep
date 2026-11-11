@@ -142,14 +142,18 @@ struct TopBar: View {
                     .font(.headline.weight(.bold))
                 Text("MindTheStep")
                     .font(.system(.headline, design: .rounded).weight(.heavy))
+                    .lineLimit(1)
+                    .fixedSize()
             }
             Spacer()
             HStack(spacing: 6) {
                 Circle()
                     .fill(model.tracking == "normal" ? Palette.clear : Palette.caution)
                     .frame(width: 8, height: 8)
-                Text("LiDAR \(Int(model.depthFPS.rounded())) fps")
+                Text("\(Int(model.depthFPS.rounded()))")
                     .font(.caption.monospacedDigit().weight(.semibold))
+                    .lineLimit(1)
+                    .fixedSize()
             }
             .padding(.horizontal, 10).padding(.vertical, 6)
             .background(.ultraThinMaterial, in: Capsule())

@@ -88,6 +88,13 @@ final class HazardStore: ObservableObject {
 
     func newWalk() { walkStart = Date() }
 
+    func clearAll() {
+        for h in hazards { if let p = h.photo { try? FileManager.default.removeItem(at: dir.appendingPathComponent(p)) } }
+        hazards = []
+        walkStart = Date()
+        save()
+    }
+
     private func update(_ id: UUID, _ change: (inout Hazard) -> Void) {
         guard let i = hazards.firstIndex(where: { $0.id == id }) else { return }
         change(&hazards[i])

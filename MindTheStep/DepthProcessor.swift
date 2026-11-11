@@ -10,13 +10,15 @@ struct DepthFrameOutput {
     /// Camera position on the ground plane (world x, z) and unit walking heading, for AR markers.
     var cameraXZ = SIMD2<Float>(0, 0)
     var heading = SIMD2<Float>(0, -1)
+    /// World height of the phone.
+    var cameraY: Float = 0
 }
 
 /// Converts ARKit LiDAR depth into gravity-aligned ground samples along the walking corridor.
 enum DepthProcessor {
     static func groundSamples(frame: ARFrame,
                               stride step: Int = 3,
-                              corridorHalfWidth: Float = 0.3,
+                              corridorHalfWidth: Float = 0.25,
                               maxForward: Float = 2.6) -> DepthFrameOutput? {
         // Single-frame depth on purpose: smoothedSceneDepth averages across frames and adds lag.
         guard let depth = frame.sceneDepth, let conf = depth.confidenceMap else { return nil }
@@ -74,6 +76,6 @@ enum DepthProcessor {
             }
         }
         return DepthFrameOutput(samples: out, headingOK: true, fingerprint: fingerprint,
-                                cameraXZ: SIMD2<Float>(cam.x, cam.z), heading: heading)
+                                cameraXZ: SIMD2<Float>(cam.x, cam.z), heading: heading, cameraY: cam.y)
     }
 }

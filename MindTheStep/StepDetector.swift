@@ -59,7 +59,12 @@ struct DetectorConfig {
     /// A bin whose 10th–90th percentile heights differ more than this is a vertical face, not ground.
     var maxBinSpread: Float = 0.07
     /// Each side of a step must be a flat surface over this many bins (15 cm)...
-    var flatBins = 3
+    var flatBins = 4
+    /// Real steps and curbs; anything taller is treated as an obstacle (chair seat, bag, person).
+    var maxStepUp: Float = 0.25
+    var maxStepDown: Float = 0.35
+    var minCameraHeight: Float = 0.7
+    var maxCameraHeight: Float = 2.1
     /// ...varying by no more than this.
     var maxFlatRange: Float = 0.05
 }
@@ -72,7 +77,8 @@ struct StepDetector {
         config.minForward + (Float(i) + 0.5) * config.binSize
     }
 
-    func analyze(_ samples: [GroundSample]) -> DetectionResult {
+    /// - Parameter cameraY: world height of the phone, used to reject tables/seats as "ground".
+    func analyze(_ samples: [GroundSample], cameraY: Float? = nil) -> DetectionResult {
         let c = config
         let binCount = Int(((c.maxForward - c.minForward) / c.binSize).rounded())
         var bins = Array(repeating: [Float](), count: binCount)
@@ -96,6 +102,12 @@ struct StepDetector {
                         profile: Array(repeating: nil, count: binCount))
         }
         let ref = median(provisionalValid.prefix(c.referenceBins).map { provisional[$0]! })
+        // A walking phone sits roughly 0.7–2 m above the floor. If the "ground" is much closer,
+        // we're looking at a table or seat, not the walking surface.
+        if let cameraY, cameraY - ref < c.minCameraHeight || cameraY - ref > c.maxCameraHeight {
+            return base(.unknown, "Hold the phone at chest height",
+                        profile: Array(repeating: nil, count: binCount))
+        }
 
         // 2. Keep only walkable surface: drop walls/objects far above the reference, and drop
         //    "mixed" bins whose heights spread widely (vertical faces such as risers or the
@@ -115,6 +127,14 @@ struct StepDetector {
 
         // 3. Nearest abrupt height change between two flat surfaces.
         if let s = findStep(in: valid, from: 1) {
+            // Taller than any real step or curb: a chair seat, bag or person, or a deep drop
+            // we can't measure reliably. Warn softly as UNKNOWN instead of guessing.
+            if s.height > c.maxStepUp || -s.height > c.maxStepDown {
+                var r = base(.unknown, s.height > 0 ? "Obstacle ahead" : "Large drop or obstacle ahead",
+                             profile: profile)
+                r.distanceM = forward(ofBin: valid[s.edge].i)
+                return r
+            }
             var r = base(s.height > 0 ? .stepUp : .stepDown,
                          s.occluded ? "Edge partly hidden" : "", profile: profile)
             r.heightCm = s.height * 100
@@ -122,9 +142,12 @@ struct StepDetector {
             r.confidence = s.support * (s.occluded ? 0.8 : 1)
             r.groundRefM = ref
             r.edgeHeightM = s.upperHeight
-            // Another step the same way within ~70 cm means stairs.
+            // Another riser-sized step the same way, of similar height, within ~70 cm means stairs.
+            let riser: ClosedRange<Float> = 0.10...0.22
             if let next = findStep(in: valid, from: s.edge + 1),
                (next.height > 0) == (s.height > 0),
+               riser.contains(abs(s.height)), riser.contains(abs(next.height)),
+               abs(abs(next.height) - abs(s.height)) <= 0.06,
                forward(ofBin: valid[next.edge].i) - r.distanceM <= 0.7 {
                 r.isStairs = true
             }

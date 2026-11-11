@@ -129,6 +129,30 @@ final class StepDetectorTests: XCTestCase {
         XCTAssertTrue(r.isStairs)
     }
 
+    func testChairSeatThenFloorIsNotStairs() {
+        // Field test 3: looking down at a chair seat (~43 cm) with the floor beyond read as "stairs down 43 cm".
+        let seat: Float = 0.43
+        let r = StepDetector().analyze(samples { $0 < 0.9 ? seat : 0 })
+        XCTAssertNotEqual(r.kind, .stepDown)
+        XCTAssertFalse(r.isStairs)
+    }
+
+    func testBagTopIsObstacleNotStepUp() {
+        let r = StepDetector().analyze(samples { $0 < 1.0 ? 0 : 0.31 })
+        XCTAssertEqual(r.kind, .unknown)
+    }
+
+    func testSeatTooCloseToPhoneIsRejectedAsGround() {
+        // Phone 1.0 m up, "ground" at 0.45 m: that's a seat, not the floor.
+        let r = StepDetector().analyze(samples { _ in 0.45 }, cameraY: 1.0)
+        XCTAssertEqual(r.kind, .unknown)
+    }
+
+    func testNormalChestHeightIsAccepted() {
+        let r = StepDetector().analyze(samples { $0 < 1.2 ? 0 : -0.15 }, cameraY: 1.3)
+        XCTAssertEqual(r.kind, .stepDown)
+    }
+
     func testTrackerNeedsPersistenceAndCoolsDown() {
         var t = StepTracker()
         let step = DetectionResult(kind: .stepDown, heightCm: -15, distanceM: 1.2)

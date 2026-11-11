@@ -37,6 +37,7 @@ struct HazardSheet: View {
 
 struct SummaryView: View {
     @ObservedObject var store: HazardStore
+    @State private var confirmClear = false
 
     var body: some View {
         let summary = WalkSummary(start: store.walkStart, hazards: store.walkHazards)
@@ -59,6 +60,17 @@ struct SummaryView: View {
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.bordered)
+                Button(role: .destructive) {
+                    confirmClear = true
+                } label: {
+                    Label("Clear all hazards", systemImage: "trash")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.bordered)
+                .confirmationDialog("Delete every saved hazard and photo?", isPresented: $confirmClear,
+                                    titleVisibility: .visible) {
+                    Button("Delete all", role: .destructive) { store.clearAll() }
+                }
                 Text("Location and photos stay on this iPhone unless you share them.")
                     .font(.footnote)
                     .foregroundStyle(.secondary)
