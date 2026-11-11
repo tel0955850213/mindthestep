@@ -8,10 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		11B4D2F487B81C14A9259A59 /* StepDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78D6F5B5163243B6A806FD /* StepDetector.swift */; };
+		1CB126EDA8B0350DA95ECF86 /* HazardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472BB3430F6B0A61B51768B /* HazardStore.swift */; };
+		20745B735E789F3606CFD16F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2461BAE670353A455FE0D0E /* LocationProvider.swift */; };
 		35513338B72B082F5ED607B3 /* AlertPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */; };
 		4C94CEDE91350AFF82C36228 /* DepthProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8788A36F99663444E2F9 /* DepthProcessor.swift */; };
 		4FC255F7CAF3B6D29BA637FC /* StepDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400F530B7107EDE257D8E66F /* StepDetectorTests.swift */; };
 		743115748D5130CD7AAF1A4D /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012F543AFF6AC43BAA46C518 /* AppModel.swift */; };
+		777F0AB8E5287FF12E44E5AC /* HazardViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD1AAF86DDDBC9CFAD78E8B6 /* HazardViews.swift */; };
 		835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A529FC5D815EC58326826C5 /* ContentView.swift */; };
 		9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */; };
 /* End PBXBuildFile section */
@@ -32,10 +35,13 @@
 		1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPlayer.swift; sourceTree = "<group>"; };
 		3BD54A7ABF248BBB17B22271 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		400F530B7107EDE257D8E66F /* StepDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetectorTests.swift; sourceTree = "<group>"; };
+		4472BB3430F6B0A61B51768B /* HazardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HazardStore.swift; sourceTree = "<group>"; };
 		493D8788A36F99663444E2F9 /* DepthProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthProcessor.swift; sourceTree = "<group>"; };
 		7832D5D178AB399BF70AA8AA /* MindTheStepTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MindTheStepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A80D79FD769B6BF7AF15EDCC /* MindTheStep.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MindTheStep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindTheStepApp.swift; sourceTree = "<group>"; };
+		CD1AAF86DDDBC9CFAD78E8B6 /* HazardViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HazardViews.swift; sourceTree = "<group>"; };
+		D2461BAE670353A455FE0D0E /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
 		DF78D6F5B5163243B6A806FD /* StepDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -56,7 +62,10 @@
 				012F543AFF6AC43BAA46C518 /* AppModel.swift */,
 				1A529FC5D815EC58326826C5 /* ContentView.swift */,
 				493D8788A36F99663444E2F9 /* DepthProcessor.swift */,
+				4472BB3430F6B0A61B51768B /* HazardStore.swift */,
+				CD1AAF86DDDBC9CFAD78E8B6 /* HazardViews.swift */,
 				3BD54A7ABF248BBB17B22271 /* Info.plist */,
+				D2461BAE670353A455FE0D0E /* LocationProvider.swift */,
 				B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */,
 				DF78D6F5B5163243B6A806FD /* StepDetector.swift */,
 			);
@@ -166,6 +175,9 @@
 				743115748D5130CD7AAF1A4D /* AppModel.swift in Sources */,
 				835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */,
 				4C94CEDE91350AFF82C36228 /* DepthProcessor.swift in Sources */,
+				1CB126EDA8B0350DA95ECF86 /* HazardStore.swift in Sources */,
+				777F0AB8E5287FF12E44E5AC /* HazardViews.swift in Sources */,
+				20745B735E789F3606CFD16F /* LocationProvider.swift in Sources */,
 				9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */,
 				11B4D2F487B81C14A9259A59 /* StepDetector.swift in Sources */,
 			);

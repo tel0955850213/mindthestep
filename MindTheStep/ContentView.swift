@@ -102,6 +102,9 @@ struct ContentView: View {
             .animation(.spring(duration: 0.3), value: model.showDiagnostics)
         }
         .preferredColorScheme(.dark)
+        .sheet(isPresented: $model.showHazards) {
+            HazardSheet(store: model.store)
+        }
         .onAppear {
             UIApplication.shared.isIdleTimerDisabled = true
             model.start()
@@ -152,6 +155,18 @@ struct TopBar: View {
             .background(.ultraThinMaterial, in: Capsule())
             .accessibilityLabel("LiDAR running at \(Int(model.depthFPS)) frames per second")
 
+            RoundButton(icon: "mappin.and.ellipse", label: "Hazard memory") {
+                model.showHazards = true
+            }
+            .overlay(alignment: .topTrailing) {
+                let n = model.store.walkHazards.filter { $0.status != .dismissed }.count
+                if n > 0 {
+                    Text("\(n)").font(.caption2.weight(.black))
+                        .padding(.horizontal, 5).padding(.vertical, 1)
+                        .background(Palette.danger, in: Capsule())
+                        .offset(x: 4, y: -4)
+                }
+            }
             RoundButton(icon: model.speechOn ? "speaker.wave.2.fill" : "speaker.slash.fill",
                         label: model.speechOn ? "Mute voice" : "Unmute voice") {
                 model.speechOn.toggle()

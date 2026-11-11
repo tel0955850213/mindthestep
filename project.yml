@@ -22,6 +22,7 @@ targets:
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         NSCameraUsageDescription: "MindTheStep uses the camera and LiDAR to detect steps and drop-offs ahead of you."
+        NSLocationWhenInUseUsageDescription: "MindTheStep pins each step or drop you pass so you can review it later. Location stays on your iPhone unless you share a summary."
         UIRequiredDeviceCapabilities: [arkit]
         UILaunchScreen: {}
         UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]

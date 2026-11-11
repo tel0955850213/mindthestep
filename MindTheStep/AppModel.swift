@@ -1,4 +1,5 @@
 import ARKit
+import CoreImage
 import QuartzCore
 import RealityKit
 import SwiftUI
@@ -14,6 +15,10 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     @Published var tracking = "—"
     @Published var points = 0
     @Published var showDiagnostics = false
+    @Published var showHazards = false
+    let store = HazardStore()
+    private let location = LocationProvider()
+    private let ciContext = CIContext()
     @Published var thresholdCm: Double = 8 {
         didSet {
             let v = Float(thresholdCm / 100)
@@ -58,6 +63,17 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
         session.delegateQueue = queue
         session.delegate = self
         session.run(config)
+        location.start()
+    }
+
+    /// Portrait JPEG thumbnail of the camera frame, for the hazard log.
+    private func snapshot(_ pixelBuffer: CVPixelBuffer) -> Data? {
+        let image = CIImage(cvPixelBuffer: pixelBuffer).oriented(.right)
+        let scale = 480 / image.extent.width
+        let scaled = image.transformed(by: CGAffineTransform(scaleX: scale, y: scale))
+        let key = CIImageRepresentationOption(rawValue: kCGImageDestinationLossyCompressionQuality as String)
+        return ciContext.jpegRepresentation(of: scaled, colorSpace: CGColorSpaceCreateDeviceRGB(),
+                                            options: [key: 0.7])
     }
 
     func session(_ session: ARSession, didUpdate frame: ARFrame) {
@@ -86,6 +102,8 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
             r = DetectionResult(kind: .unknown, reason: "No depth this frame")
         }
         let confirmed = tracker.update(r, now: t0)
+        let isStep = confirmed.map { $0.kind == .stepUp || $0.kind == .stepDown } ?? false
+        let photo = isStep ? snapshot(frame.capturedImage) : nil
 
         let t1 = CACurrentMediaTime()
         let procMs = (t1 - t0) * 1000
@@ -115,6 +133,7 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
                 self.lastAlert = c
                 self.lastAlertTime = Date()
                 self.alertLatencyMs = latencyMs
+                if isStep { self.store.record(c, location: self.location.last, photo: photo) }
             }
         }
     }

@@ -22,6 +22,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>NSCameraUsageDescription</key>
 	<string>MindTheStep uses the camera and LiDAR to detect steps and drop-offs ahead of you.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>MindTheStep pins each step or drop you pass so you can review it later. Location stays on your iPhone unless you share a summary.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchScreen</key>
