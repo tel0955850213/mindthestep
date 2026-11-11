@@ -17,6 +17,8 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     @Published var showDiagnostics = false
     @Published var showHazards = false
     let store = HazardStore()
+    let family = FamilyNotifier()
+    @Published var familyNotice: FamilyNotice?
     private let location = LocationProvider()
     private let ciContext = CIContext()
     @Published var thresholdCm: Double = 8 {
@@ -134,6 +136,25 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
                 self.lastAlertTime = Date()
                 self.alertLatencyMs = latencyMs
                 if isStep { self.store.record(c, location: self.location.last, photo: photo) }
+                if self.family.shouldNotify(c) { self.notifyFamily(c) }
+            }
+        }
+    }
+
+    /// Push a real alert to family, showing the banner while it sends and once it lands. Main thread.
+    private func notifyFamily(_ r: DetectionResult) {
+        let text = family.message(for: r)
+        let notice = FamilyNotice(state: .sending, message: text)
+        familyNotice = notice
+        Task {
+            let ok = await family.send(text)
+            await MainActor.run {
+                guard self.familyNotice?.id == notice.id else { return }
+                self.familyNotice = FamilyNotice(id: notice.id, state: ok ? .delivered : .failed, message: text)
+            }
+            try? await Task.sleep(for: .seconds(3.5))
+            await MainActor.run {
+                if self.familyNotice?.id == notice.id { self.familyNotice = nil }
             }
         }
     }

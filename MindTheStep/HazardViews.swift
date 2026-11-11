@@ -4,6 +4,7 @@ import SwiftUI
 /// Hazard Memory: walk summary for family, the hazard log, and a map.
 struct HazardSheet: View {
     @ObservedObject var store: HazardStore
+    @ObservedObject var family: FamilyNotifier
     @State private var tab = 0
     @Environment(\.dismiss) private var dismiss
 
@@ -14,6 +15,7 @@ struct HazardSheet: View {
                     Text("Summary").tag(0)
                     Text("Hazards").tag(1)
                     Text("Map").tag(2)
+                    Text("Family").tag(3)
                 }
                 .pickerStyle(.segmented)
                 .padding()
@@ -21,7 +23,8 @@ struct HazardSheet: View {
                 switch tab {
                 case 0: SummaryView(store: store)
                 case 1: HazardList(store: store)
-                default: HazardMap(store: store)
+                case 2: HazardMap(store: store)
+                default: FamilySettingsView(family: family)
                 }
             }
             .navigationTitle("Hazard Memory")

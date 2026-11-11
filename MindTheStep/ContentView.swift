@@ -63,6 +63,8 @@ enum Palette {
 
 struct ContentView: View {
     @StateObject private var model = AppModel()
+    @State private var shakes: CGFloat = 0
+    @State private var flash: Double = 0
 
     var body: some View {
         TimelineView(.periodic(from: .now, by: 0.15)) { ctx in
@@ -82,10 +84,14 @@ struct ContentView: View {
                                startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
-                AlertGlow(color: style.color, active: recentAlert != nil)
+                AlertGlow(active: recentAlert != nil, flash: flash)
 
                 VStack(spacing: 12) {
                     TopBar(model: model)
+                    if let notice = model.familyNotice {
+                        FamilyBanner(notice: notice, contact: model.family.contact)
+                            .transition(.move(edge: .top).combined(with: .opacity))
+                    }
                     Spacer()
                     if !model.supported {
                         NoLidarCard()
@@ -99,11 +105,19 @@ struct ContentView: View {
                 .padding(.horizontal, 16)
                 .padding(.bottom, 8)
             }
+            .modifier(ShakeEffect(animatableData: shakes))
             .animation(.spring(duration: 0.3), value: model.showDiagnostics)
+            .animation(.spring(duration: 0.4), value: model.familyNotice)
+        }
+        .onChange(of: model.lastAlertTime) {
+            guard model.lastAlert.map({ $0.kind == .stepUp || $0.kind == .stepDown }) ?? false else { return }
+            withAnimation(.linear(duration: 0.55)) { shakes += 1 }
+            flash = 0.35
+            withAnimation(.easeOut(duration: 0.7)) { flash = 0 }
         }
         .preferredColorScheme(.dark)
         .sheet(isPresented: $model.showHazards) {
-            HazardSheet(store: model.store)
+            HazardSheet(store: model.store, family: model.family)
         }
         .onAppear {
             UIApplication.shared.isIdleTimerDisabled = true
@@ -247,22 +261,36 @@ struct HazardCard: View {
     }
 }
 
-/// Coloured edge glow around the screen while an alert is fresh.
+/// Thick red frame that pulses while an alert is fresh, plus a red flash on the frame it fires.
 struct AlertGlow: View {
-    let color: Color
     let active: Bool
+    let flash: Double
     @State private var pulse = false
 
     var body: some View {
-        RoundedRectangle(cornerRadius: 48, style: .continuous)
-            .strokeBorder(color, lineWidth: active ? (pulse ? 16 : 8) : 0)
-            .blur(radius: 6)
-            .ignoresSafeArea()
-            .opacity(active ? 1 : 0)
-            .animation(.easeInOut(duration: 0.35).repeatForever(autoreverses: true), value: pulse)
-            .animation(.easeOut(duration: 0.3), value: active)
-            .onAppear { pulse = true }
-            .allowsHitTesting(false)
+        ZStack {
+            Palette.danger.opacity(flash).ignoresSafeArea()
+            RoundedRectangle(cornerRadius: 52, style: .continuous)
+                .strokeBorder(Palette.danger, lineWidth: active ? (pulse ? 26 : 14) : 0)
+                .shadow(color: Palette.danger, radius: active ? 18 : 0)
+                .ignoresSafeArea()
+                .opacity(active ? 1 : 0)
+        }
+        .animation(.easeInOut(duration: 0.28).repeatForever(autoreverses: true), value: pulse)
+        .animation(.easeOut(duration: 0.25), value: active)
+        .onAppear { pulse = true }
+        .allowsHitTesting(false)
+    }
+}
+
+/// Horizontal shake; bump `animatableData` by 1 inside withAnimation to shake once.
+struct ShakeEffect: GeometryEffect {
+    var amount: CGFloat = 14
+    var shakes: CGFloat = 4
+    var animatableData: CGFloat
+
+    func effectValue(size: CGSize) -> ProjectionTransform {
+        ProjectionTransform(CGAffineTransform(translationX: amount * sin(animatableData * .pi * shakes), y: 0))
     }
 }
 
