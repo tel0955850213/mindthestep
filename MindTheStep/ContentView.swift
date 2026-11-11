@@ -15,35 +15,36 @@ struct HazardStyle {
 
     init(_ r: DetectionResult) {
         let cm = Int(abs(r.heightCm).rounded())
-        let dist = String(format: "%.1f m ahead", r.distanceM)
+        let d = String(format: "%.1f", r.distanceM)
+        let dist = L("\(d) m ahead")
         switch r.kind {
         case .stepDown, .stepUp:
             let down = r.kind == .stepDown
-            title = r.isStairs ? (down ? "Stairs down" : "Stairs up") : (down ? "Step down" : "Step up")
-            value = "\(cm) cm"
+            title = r.isStairs ? (down ? L("Stairs down") : L("Stairs up")) : (down ? L("Step down") : L("Step up"))
+            value = L("\(cm) cm")
             detail = dist
             icon = r.isStairs ? "figure.stairs" : (down ? "arrow.down" : "arrow.up")
             color = abs(r.heightCm) > 15 ? Palette.danger : Palette.caution
             isAlert = true
         case .ramp:
-            title = r.slopePercent > 0 ? "Ramp up" : "Ramp down"
+            title = r.slopePercent > 0 ? L("Ramp up") : L("Ramp down")
             value = String(format: "%.0f%%", abs(r.slopePercent))
-            detail = "Gentle slope ahead"
+            detail = L("Gentle slope ahead")
             icon = r.slopePercent > 0 ? "arrow.up.right" : "arrow.down.right"
             color = Palette.info
             isAlert = false
         case .unknown:
             let tilt = r.reason.contains("Tilt")
-            title = tilt ? "Tilt phone forward" : "Can't see the ground"
+            title = tilt ? L("Tilt phone forward") : L("Can't see the ground")
             value = nil
-            detail = tilt ? "Aim about 1–2 m ahead of your feet" : r.reason
+            detail = tilt ? L("Aim about 1–2 m ahead of your feet") : localizedReason(r.reason)
             icon = tilt ? "iphone.gen3" : "eye.slash.fill"
             color = Palette.unknown
             isAlert = false
         case .clear:
-            title = "Path clear"
+            title = L("Path clear")
             value = nil
-            detail = "Level ground ahead"
+            detail = L("Level ground ahead")
             icon = "checkmark"
             color = Palette.clear
             isAlert = false
@@ -189,7 +190,7 @@ struct OnboardingView: View {
                 "Big steps can notify a family member. Only the step size and time are sent, never your location.")
 
             Spacer()
-            Text("MindTheStep is a prototype, not a medical device or a replacement for a cane, a guide, or your own attention.")
+            Text("MindTheStep is an awareness aid, not a medical device. It does not replace a cane, a companion, or your own attention.")
                 .font(.footnote)
                 .foregroundStyle(.secondary)
             Button(action: done) {
@@ -204,7 +205,7 @@ struct OnboardingView: View {
         .padding(24)
     }
 
-    private func row(_ icon: String, _ title: String, _ text: String) -> some View {
+    private func row(_ icon: String, _ title: LocalizedStringKey, _ text: LocalizedStringKey) -> some View {
         HStack(alignment: .top, spacing: 16) {
             Image(systemName: icon)
                 .font(.title2.weight(.semibold))
@@ -266,11 +267,11 @@ struct TopBar: View {
             .accessibilityLabel("LiDAR running at \(Int(model.depthFPS)) frames per second")
 
             RoundButton(icon: model.speechOn ? "speaker.wave.2.fill" : "speaker.slash.fill",
-                        label: model.speechOn ? "Mute voice" : "Unmute voice") {
+                        label: model.speechOn ? L("Mute voice") : L("Unmute voice")) {
                 model.speechOn.toggle()
             }
             RoundButton(icon: "chart.xyaxis.line",
-                        label: model.showDiagnostics ? "Hide diagnostics" : "Show diagnostics",
+                        label: model.showDiagnostics ? L("Hide diagnostics") : L("Show diagnostics"),
                         active: model.showDiagnostics) {
                 model.showDiagnostics.toggle()
             }

@@ -25,7 +25,7 @@ struct Hazard: Codable, Identifiable, Equatable {
     }
 
     var title: String {
-        isStairs ? (up ? "Stairs up" : "Stairs down") : (up ? "Step up" : "Step down")
+        isStairs ? (up ? L("Stairs up") : L("Stairs down")) : (up ? L("Step up") : L("Step down"))
     }
 
     /// LiDAR minus tape, in cm.
@@ -140,8 +140,18 @@ struct WalkSummary {
 
     var shareText: String {
         let minutes = max(1, Int(Date().timeIntervalSince(start) / 60))
+        let flagged = detected - dismissed
+        if Lang.isChinese {
+            var lines = ["小心台階 步行摘要（\(minutes) 分鐘）",
+                         "• 提醒了 \(flagged) 個台階或落差，已確認 \(confirmed) 個"]
+            if stairs > 0 { lines.append("• 樓梯 \(stairs) 處") }
+            if let d = largestDropCm { lines.append(String(format: "• 最大落差：%.0f 公分", d)) }
+            if let u = largestStepUpCm { lines.append(String(format: "• 最高的往上台階：%.0f 公分", u)) }
+            if let e = meanAbsErrorCm { lines.append(String(format: "• LiDAR 與捲尺平均誤差 ±%.1f 公分（%d 次驗證）", e, validated)) }
+            return lines.joined(separator: "\n")
+        }
         var lines = ["MindTheStep walk summary (\(minutes) min)",
-                     "• \(detected - dismissed) steps or drops flagged, \(confirmed) confirmed"]
+                     "• \(flagged) steps or drops flagged, \(confirmed) confirmed"]
         if stairs > 0 { lines.append("• \(stairs) staircases") }
         if let d = largestDropCm { lines.append(String(format: "• Largest drop: %.0f cm", d)) }
         if let u = largestStepUpCm { lines.append(String(format: "• Largest step up: %.0f cm", u)) }

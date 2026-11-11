@@ -1,6 +1,7 @@
 name: MindTheStep
 options:
   bundleIdPrefix: com.donaldlin
+  developmentLanguage: en
   deploymentTarget:
     iOS: "18.0"
 settings:
@@ -10,6 +11,8 @@ settings:
     MARKETING_VERSION: "0.1"
     CURRENT_PROJECT_VERSION: "1"
     SWIFT_VERSION: "5.0"
+    LOCALIZATION_PREFERS_STRING_CATALOGS: YES
+    SWIFT_EMIT_LOC_STRINGS: YES
 targets:
   MindTheStep:
     type: application
@@ -19,6 +22,9 @@ targets:
       path: MindTheStep/Info.plist
       properties:
         CFBundleDisplayName: MindTheStep
+        CFBundleDevelopmentRegion: en
+        CFBundleLocalizations: [en, zh-Hant]
+        ITSAppUsesNonExemptEncryption: false
         CFBundleShortVersionString: "$(MARKETING_VERSION)"
         CFBundleVersion: "$(CURRENT_PROJECT_VERSION)"
         NSCameraUsageDescription: "MindTheStep uses the camera and LiDAR to detect steps and drop-offs ahead of you."

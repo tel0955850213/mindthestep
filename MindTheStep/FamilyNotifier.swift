@@ -49,7 +49,7 @@ struct FamilyNotice: Equatable {
 /// The family member opens the topic link in a browser or the ntfy app to receive alerts.
 /// Only the step type, height and time are sent. No location, no photo.
 final class FamilyNotifier: ObservableObject {
-    @AppStorage("family.contactName") var name = "Daughter"
+    @AppStorage("family.contactName") var name = L("Daughter")
     @AppStorage("family.enabled") var enabled = true
     @AppStorage("family.minCm") var minCm = 12.0
     @AppStorage("family.topic") var topic = ""
@@ -92,14 +92,15 @@ final class FamilyNotifier: ObservableObject {
 
     func message(for r: DetectionResult) -> String {
         let cm = Int(abs(r.heightCm).rounded())
-        let what = r.isStairs ? (r.kind == .stepUp ? "stairs going up" : "stairs going down")
-                              : "a \(cm) cm step \(r.kind == .stepUp ? "up" : "down")"
+        let up = r.kind == .stepUp
+        let what = r.isStairs ? (up ? L("stairs going up") : L("stairs going down"))
+                              : (up ? L("a \(cm) cm step up") : L("a \(cm) cm step down"))
         let time = Date().formatted(date: .omitted, time: .shortened)
-        return "MindTheStep warned about \(what) at \(time). Alert given in time."
+        return L("MindTheStep warned about \(what) at \(time). Alert given in time.")
     }
 
     /// Returns true when ntfy accepted the message.
-    func send(_ text: String, title: String = "MindTheStep alert") async -> Bool {
+    func send(_ text: String, title: String = L("MindTheStep alert")) async -> Bool {
         lastSent = Date()
         var req = URLRequest(url: link)
         req.httpMethod = "POST"
@@ -152,9 +153,9 @@ struct FamilyBanner: View {
 
     private var headline: String {
         switch notice.state {
-        case .sending: return "Sending to \(contact.name)…"
-        case .delivered: return "Sent to \(contact.name)"
-        case .failed: return "Couldn't reach \(contact.name)"
+        case .sending: return L("Sending to \(contact.name)…")
+        case .delivered: return L("Sent to \(contact.name)")
+        case .failed: return L("Couldn't reach \(contact.name)")
         }
     }
 
@@ -226,10 +227,10 @@ struct FamilySettingsView: View {
                     Label("Send setup link to \(family.name)", systemImage: "square.and.arrow.up")
                 }
                 Button {
-                    testState = "Sending…"
+                    testState = L("Sending…")
                     Task {
-                        let ok = await family.send("This is a test alert from MindTheStep.", title: "MindTheStep test")
-                        await MainActor.run { testState = ok ? "Delivered ✓" : "Failed. Check internet." }
+                        let ok = await family.send(L("This is a test alert from MindTheStep."), title: L("MindTheStep test"))
+                        await MainActor.run { testState = ok ? L("Delivered ✓") : L("Failed. Check internet.") }
                     }
                 } label: {
                     HStack {
@@ -257,7 +258,7 @@ struct FamilySettingsView: View {
                                 HStack(spacing: 4) {
                                     Image(systemName: a.delivered ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
                                         .foregroundStyle(a.delivered ? Palette.clear : Palette.danger)
-                                    Text(a.delivered ? "Delivered" : "Not delivered")
+                                    Text(a.delivered ? L("Delivered") : L("Not delivered"))
                                     Text(a.date, style: .time)
                                 }
                                 .font(.caption).foregroundStyle(.secondary)

@@ -26,7 +26,15 @@ enum WalkNarrator {
         return lines.joined(separator: "\n")
     }
 
-    static let instructions = """
+    static var instructions: String { Lang.isChinese ? instructionsZh : instructionsEn }
+
+    static let instructionsZh = """
+    你要替一個台階提醒 App 寫一段給家屬的簡短近況，對象是長輩的子女。只能使用提供的事實，\
+    不可以編造地點、人名、時間或數字。用台灣常用的繁體中文寫 2 到 3 句，語氣溫暖、平靜。\
+    提到最需要注意的一個台階或落差，最後給一個溫和、實際的小建議。不要給醫療建議，不要提到位置。
+    """
+
+    static let instructionsEn = """
     You write a short update for a family caregiver about their older parent's walk, \
     from a step-warning app. Use only the facts provided; never invent places, names, \
     times or numbers. Write 2 to 3 short, warm, calm sentences in plain English. \
@@ -37,6 +45,14 @@ enum WalkNarrator {
     /// Template used when Apple Intelligence isn't available, so the feature still works.
     static func fallback(summary: WalkSummary, hazards: [Hazard]) -> String {
         let real = hazards.filter { $0.status != .dismissed }
+        if Lang.isChinese {
+            guard !real.isEmpty else { return "今天走得很平順，沒有需要提醒的台階或落差。" }
+            var z = "今天的步行中提醒了 \(real.count) 個台階或落差"
+            if let d = summary.largestDropCm { z += String(format: "，最大的是 %.0f 公分的落差", d) }
+            z += "，每一個都在走到之前就提醒了。"
+            if summary.stairs > 0 { z += "路線上有 \(summary.stairs) 處樓梯，扶著扶手會更安心。" }
+            return z
+        }
         guard !real.isEmpty else { return "A calm walk today. No steps or drops needed a warning." }
         var s = "She was warned about \(real.count) step\(real.count == 1 ? "" : "s") or drops on today's walk"
         if let d = summary.largestDropCm { s += String(format: ", the largest a %.0f cm drop", d) }
@@ -53,19 +69,19 @@ enum WalkNarrator {
         if #available(iOS 26.0, *) {
             let model = SystemLanguageModel.default
             guard case .available = model.availability else {
-                return .fallback(template, reason: "Apple Intelligence isn't ready on this iPhone")
+                return .fallback(template, reason: L("Apple Intelligence isn't ready on this iPhone"))
             }
             do {
                 let session = LanguageModelSession(instructions: instructions)
                 let response = try await session.respond(to: "Facts about today's walk:\n" + facts(summary: summary, hazards: hazards))
                 let text = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
-                return text.isEmpty ? .fallback(template, reason: "The model returned nothing") : .ai(text)
+                return text.isEmpty ? .fallback(template, reason: L("The model returned nothing")) : .ai(text)
             } catch {
-                return .fallback(template, reason: "On-device AI error")
+                return .fallback(template, reason: L("On-device AI error"))
             }
         }
         #endif
-        return .fallback(template, reason: "Needs iOS 26 or later")
+        return .fallback(template, reason: L("Needs iOS 26 or later"))
     }
 }
 
@@ -89,7 +105,7 @@ struct AISummaryCard: View {
                                                     startPoint: .topLeading, endPoint: .bottomTrailing))
                 Text("Note for \(family.name)").font(.headline)
                 Spacer()
-                Text(isAI ? "On-device AI" : "Private · on this iPhone")
+                Text(isAI ? L("On-device AI") : L("Private · on this iPhone"))
                     .font(.caption2.weight(.semibold)).foregroundStyle(.secondary)
             }
 
@@ -106,12 +122,12 @@ struct AISummaryCard: View {
                 if let note { Text(note).font(.caption).foregroundStyle(.secondary) }
                 HStack {
                     Button {
-                        sendState = "Sending…"
+                        sendState = L("Sending…")
                         Task {
-                            let ok = await family.send(text, title: "Today's walk")
+                            let ok = await family.send(text, title: L("Today's walk"))
                             await MainActor.run {
                                 family.log(text, delivered: ok)
-                                sendState = ok ? "Sent to \(family.name) ✓" : "Couldn't send"
+                                sendState = ok ? L("Sent to \(family.name) ✓") : L("Couldn't send")
                             }
                         }
                     } label: {
@@ -133,7 +149,7 @@ struct AISummaryCard: View {
                 Button { generate(summary) } label: {
                     HStack {
                         if working { ProgressView().tint(.white) }
-                        Label(working ? "Writing…" : "Write with Apple Intelligence", systemImage: "sparkles")
+                        Label(working ? L("Writing…") : L("Write with Apple Intelligence"), systemImage: "sparkles")
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -153,8 +169,8 @@ struct AISummaryCard: View {
             await MainActor.run {
                 working = false
                 switch outcome {
-                case .ai(let t): text = t; isAI = true; note = "Written by Apple's on-device model from today's hazard log."
-                case .fallback(let t, let reason): text = t; isAI = false; note = "\(reason). Showing a standard summary."
+                case .ai(let t): text = t; isAI = true; note = L("Written by Apple's on-device model from today's hazard log.")
+                case .fallback(let t, let reason): text = t; isAI = false; note = L("\(reason). Showing a standard summary.")
                 }
             }
         }

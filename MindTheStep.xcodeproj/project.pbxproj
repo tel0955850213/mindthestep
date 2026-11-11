@@ -8,9 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		11B4D2F487B81C14A9259A59 /* StepDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF78D6F5B5163243B6A806FD /* StepDetector.swift */; };
+		176F1FD8C4C406C294B47F70 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27F4C6CCCCB2EDA7D6655884 /* Localization.swift */; };
+		1BA66DD58B71B5CB0BA7A11A /* InfoPlist.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 99230AA9A2F0A814D7174324 /* InfoPlist.xcstrings */; };
 		1CB126EDA8B0350DA95ECF86 /* HazardStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4472BB3430F6B0A61B51768B /* HazardStore.swift */; };
 		20745B735E789F3606CFD16F /* LocationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2461BAE670353A455FE0D0E /* LocationProvider.swift */; };
 		35513338B72B082F5ED607B3 /* AlertPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */; };
+		4286AB3F8667F53A8A2852BB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 917E86E33FAE95D2BDA09FCC /* Localizable.xcstrings */; };
 		4C94CEDE91350AFF82C36228 /* DepthProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 493D8788A36F99663444E2F9 /* DepthProcessor.swift */; };
 		4FC255F7CAF3B6D29BA637FC /* StepDetectorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400F530B7107EDE257D8E66F /* StepDetectorTests.swift */; };
 		743115748D5130CD7AAF1A4D /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012F543AFF6AC43BAA46C518 /* AppModel.swift */; };
@@ -36,11 +39,14 @@
 		012F543AFF6AC43BAA46C518 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		1A529FC5D815EC58326826C5 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPlayer.swift; sourceTree = "<group>"; };
+		27F4C6CCCCB2EDA7D6655884 /* Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Localization.swift; sourceTree = "<group>"; };
 		3BD54A7ABF248BBB17B22271 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		400F530B7107EDE257D8E66F /* StepDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetectorTests.swift; sourceTree = "<group>"; };
 		4472BB3430F6B0A61B51768B /* HazardStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HazardStore.swift; sourceTree = "<group>"; };
 		493D8788A36F99663444E2F9 /* DepthProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DepthProcessor.swift; sourceTree = "<group>"; };
 		7832D5D178AB399BF70AA8AA /* MindTheStepTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MindTheStepTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		917E86E33FAE95D2BDA09FCC /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		99230AA9A2F0A814D7174324 /* InfoPlist.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = InfoPlist.xcstrings; sourceTree = "<group>"; };
 		A80D79FD769B6BF7AF15EDCC /* MindTheStep.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MindTheStep.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindTheStepApp.swift; sourceTree = "<group>"; };
 		CD1AAF86DDDBC9CFAD78E8B6 /* HazardViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HazardViews.swift; sourceTree = "<group>"; };
@@ -74,6 +80,9 @@
 				4472BB3430F6B0A61B51768B /* HazardStore.swift */,
 				CD1AAF86DDDBC9CFAD78E8B6 /* HazardViews.swift */,
 				3BD54A7ABF248BBB17B22271 /* Info.plist */,
+				99230AA9A2F0A814D7174324 /* InfoPlist.xcstrings */,
+				917E86E33FAE95D2BDA09FCC /* Localizable.xcstrings */,
+				27F4C6CCCCB2EDA7D6655884 /* Localization.swift */,
 				D2461BAE670353A455FE0D0E /* LocationProvider.swift */,
 				B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */,
 				DF78D6F5B5163243B6A806FD /* StepDetector.swift */,
@@ -162,6 +171,7 @@
 			knownRegions = (
 				Base,
 				en,
+				"zh-Hant",
 			);
 			mainGroup = 170B40998AF284EA27A1532D;
 			minimizedProjectReferenceProxies = 1;
@@ -182,6 +192,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F26D15A1FDB3EF3B405880AE /* Assets.xcassets in Resources */,
+				1BA66DD58B71B5CB0BA7A11A /* InfoPlist.xcstrings in Resources */,
+				4286AB3F8667F53A8A2852BB /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +212,7 @@
 				939DED2D37B9B7586C8CAD74 /* FamilyNotifier.swift in Sources */,
 				1CB126EDA8B0350DA95ECF86 /* HazardStore.swift in Sources */,
 				777F0AB8E5287FF12E44E5AC /* HazardViews.swift in Sources */,
+				176F1FD8C4C406C294B47F70 /* Localization.swift in Sources */,
 				20745B735E789F3606CFD16F /* LocationProvider.swift in Sources */,
 				9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */,
 				11B4D2F487B81C14A9259A59 /* StepDetector.swift in Sources */,
@@ -291,12 +304,14 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 0.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
@@ -357,6 +372,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = 0.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -364,6 +380,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};

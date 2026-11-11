@@ -22,8 +22,12 @@ final class AlertPlayer {
             let major = abs(r.heightCm) > 15
             pulse(heavy, times: major ? 3 : 2)
             let cm = Int(abs(r.heightCm).rounded())
-            let dir = r.kind == .stepUp ? "up" : "down"
-            speak(r.isStairs ? "Stairs \(dir)." : "Step \(dir), \(cm).")
+            let up = r.kind == .stepUp
+            if Lang.isChinese {
+                speak(r.isStairs ? (up ? "樓梯往上。" : "樓梯往下。") : (up ? "往上一階，\(cm) 公分。" : "往下一階，\(cm) 公分。"))
+            } else {
+                speak(r.isStairs ? "Stairs \(up ? "up" : "down")." : "Step \(up ? "up" : "down"), \(cm).")
+            }
         case .unknown:
             light.impactOccurred()
         case .clear, .ramp:
@@ -45,8 +49,8 @@ final class AlertPlayer {
         guard speechEnabled else { return }
         if synth.isSpeaking { synth.stopSpeaking(at: .immediate) }
         let u = AVSpeechUtterance(string: text)
-        u.voice = AVSpeechSynthesisVoice(language: "en-US")
-        u.rate = 0.55
+        u.voice = AVSpeechSynthesisVoice(language: Lang.isChinese ? "zh-TW" : "en-US")
+        u.rate = Lang.isChinese ? 0.5 : 0.55
         synth.speak(u)
     }
 }

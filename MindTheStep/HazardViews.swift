@@ -105,12 +105,12 @@ struct SummaryCard: View {
                     tile("\(summary.confirmed)", "confirmed", Palette.clear)
                 }
                 GridRow {
-                    tile(summary.largestDropCm.map { String(format: "%.0f cm", $0) } ?? "—", "largest drop", Palette.danger)
+                    tile(summary.largestDropCm.map { L("\(Int($0.rounded())) cm") } ?? "—", "largest drop", Palette.danger)
                     tile("\(summary.stairs)", "staircases", Palette.info)
                 }
             }
             if let e = summary.meanAbsErrorCm {
-                Label(String(format: "LiDAR vs tape measure: ±%.1f cm average over %d checks", e, summary.validated),
+                Label(L("LiDAR vs tape measure: ±\(String(format: "%.1f", e)) cm average over \(summary.validated) checks"),
                       systemImage: "ruler")
                     .font(.footnote.weight(.semibold))
             }
@@ -123,7 +123,7 @@ struct SummaryCard: View {
                     in: RoundedRectangle(cornerRadius: 24, style: .continuous))
     }
 
-    private func tile(_ value: String, _ label: String, _ color: Color) -> some View {
+    private func tile(_ value: String, _ label: LocalizedStringKey, _ color: Color) -> some View {
         VStack(alignment: .leading, spacing: 2) {
             Text(value).font(.system(size: 30, weight: .black, design: .rounded).monospacedDigit())
             Text(label).font(.caption.weight(.semibold)).opacity(0.75)
@@ -156,7 +156,7 @@ struct HazardRow: View {
                     Text(hazard.title).font(.headline)
                     StatusChip(status: hazard.status)
                 }
-                Text(String(format: "%.0f cm", hazard.heightCm) + (hazard.tapeCm.map { String(format: " · tape %.0f cm", $0) } ?? ""))
+                Text(L("\(Int(hazard.heightCm.rounded())) cm") + (hazard.tapeCm.map { " · " + L("tape \(Int($0.rounded())) cm") } ?? ""))
                     .font(.subheadline.monospacedDigit())
                 Text(hazard.date, style: .time).font(.caption).foregroundStyle(.secondary)
             }
@@ -169,9 +169,9 @@ struct StatusChip: View {
     let status: Hazard.Status
     var body: some View {
         let (text, color): (String, Color) = switch status {
-        case .pending: ("new", Palette.caution)
-        case .confirmed: ("confirmed", Palette.clear)
-        case .dismissed: ("false alarm", Palette.unknown)
+        case .pending: (L("new"), Palette.caution)
+        case .confirmed: (L("confirmed"), Palette.clear)
+        case .dismissed: (L("false alarm"), Palette.unknown)
         }
         Text(text).font(.caption2.weight(.bold))
             .padding(.horizontal, 6).padding(.vertical, 2)
@@ -193,7 +193,7 @@ struct HazardDetail: View {
                 Section("Detected") {
                     LabeledContent("Type", value: h.title)
                     LabeledContent("LiDAR height", value: String(format: "%.1f cm", h.heightCm))
-                    LabeledContent("Warned at", value: String(format: "%.1f m ahead", h.distanceM))
+                    LabeledContent("Warned at", value: L("\(String(format: "%.1f", h.distanceM)) m ahead"))
                     LabeledContent("Time") { Text(h.date, style: .time) }
                 }
                 Section {
@@ -237,7 +237,7 @@ struct MapTab: View {
             Map {
                 UserAnnotation()
                 ForEach(pins) { h in
-                    Annotation(String(format: "%.0f cm", h.heightCm), coordinate: h.coordinate!) {
+                    Annotation(L("\(Int(h.heightCm.rounded())) cm"), coordinate: h.coordinate!) {
                         Image(systemName: h.up ? "arrow.up" : "arrow.down")
                             .font(.caption.weight(.black))
                             .foregroundStyle(.white)
@@ -262,7 +262,7 @@ struct MapTab: View {
         }
     }
 
-    private func legend(_ color: Color, _ text: String) -> some View {
+    private func legend(_ color: Color, _ text: LocalizedStringKey) -> some View {
         HStack(spacing: 5) {
             Circle().fill(color).frame(width: 10, height: 10)
             Text(text)

@@ -1,0 +1,1346 @@
+{
+  "sourceLanguage": "en",
+  "version": "1.0",
+  "strings": {
+    "An early warning for steps and drops ahead of you.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "在你走到台階前，先提醒你。"
+          }
+        }
+      }
+    },
+    "MindTheStep is an awareness aid, not a medical device. It does not replace a cane, a companion, or your own attention.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心台階是提醒工具，不是醫療器材，不能取代拐杖、陪伴的人，或你自己的注意力。"
+          }
+        }
+      }
+    },
+    "Start walking": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始走路"
+          }
+        }
+      }
+    },
+    "Hold at chest height": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "掛在胸前"
+          }
+        }
+      }
+    },
+    "Tilt the phone forward so the camera sees the ground 1–2 m ahead. A cane clip or lanyard works well.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手機稍微往前傾，讓鏡頭看到前方 1–2 公尺的地面。用掛繩或拐杖夾都可以。"
+          }
+        }
+      }
+    },
+    "Feel it, hear it": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "震動加語音"
+          }
+        }
+      }
+    },
+    "A buzz and a short voice cue warn you before you reach a step. Works without internet.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "走到台階前，手機會震動並用語音提醒你。不需要網路。"
+          }
+        }
+      }
+    },
+    "Keep family in the loop": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "讓家人放心"
+          }
+        }
+      }
+    },
+    "Big steps can notify a family member. Only the step size and time are sent, never your location.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "遇到較高的台階時可以通知家人，只會傳送台階高度和時間，不會傳送你的位置。"
+          }
+        }
+      }
+    },
+    "Detect": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偵測"
+          }
+        }
+      }
+    },
+    "Report": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "報告"
+          }
+        }
+      }
+    },
+    "Map": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "地圖"
+          }
+        }
+      }
+    },
+    "Family": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "家人"
+          }
+        }
+      }
+    },
+    "LiDAR running at %lld frames per second": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LiDAR 每秒 %lld 張"
+          }
+        }
+      }
+    },
+    "Mute voice": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "關閉語音"
+          }
+        }
+      }
+    },
+    "Unmute voice": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開啟語音"
+          }
+        }
+      }
+    },
+    "Hide diagnostics": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隱藏診斷資訊"
+          }
+        }
+      }
+    },
+    "Show diagnostics": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "顯示診斷資訊"
+          }
+        }
+      }
+    },
+    "This iPhone has no LiDAR.\nMindTheStep needs an iPhone Pro (12 Pro or later).": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這支 iPhone 沒有 LiDAR。\n小心台階需要 iPhone Pro（12 Pro 以後的機型）。"
+          }
+        }
+      }
+    },
+    "Alert at ≥ %lld cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "落差 ≥ %lld 公分才警示"
+          }
+        }
+      }
+    },
+    "GROUND AHEAD · 0.3–2.5 m · ±40 cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前方地面 · 0.3–2.5 公尺 · ±40 公分"
+          }
+        }
+      }
+    },
+    "on-device LiDAR · no cloud": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裝置上的 LiDAR · 不用雲端"
+          }
+        }
+      }
+    },
+    "Stairs down": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "樓梯往下"
+          }
+        }
+      }
+    },
+    "Stairs up": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "樓梯往上"
+          }
+        }
+      }
+    },
+    "Step down": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往下一階"
+          }
+        }
+      }
+    },
+    "Step up": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往上一階"
+          }
+        }
+      }
+    },
+    "%lld cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%lld 公分"
+          }
+        }
+      }
+    },
+    "%@ m ahead": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前方 %@ 公尺"
+          }
+        }
+      }
+    },
+    "Ramp up": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "上坡"
+          }
+        }
+      }
+    },
+    "Ramp down": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "下坡"
+          }
+        }
+      }
+    },
+    "Gentle slope ahead": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前方是緩坡"
+          }
+        }
+      }
+    },
+    "Tilt phone forward": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "手機往前傾"
+          }
+        }
+      }
+    },
+    "Can't see the ground": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看不到地面"
+          }
+        }
+      }
+    },
+    "Aim about 1–2 m ahead of your feet": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "對準腳前 1–2 公尺"
+          }
+        }
+      }
+    },
+    "Path clear": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "路面平坦"
+          }
+        }
+      }
+    },
+    "Level ground ahead": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前方是平地"
+          }
+        }
+      }
+    },
+    "Can't see the ground ahead": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看不到前方地面"
+          }
+        }
+      }
+    },
+    "Hold the phone at chest height": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "請把手機拿到胸口高度"
+          }
+        }
+      }
+    },
+    "Not enough ground points": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "地面資訊不足"
+          }
+        }
+      }
+    },
+    "Obstacle ahead": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前方有障礙物"
+          }
+        }
+      }
+    },
+    "Large drop or obstacle ahead": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "前方有較大落差或障礙物"
+          }
+        }
+      }
+    },
+    "Edge partly hidden": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "邊緣部分被遮住"
+          }
+        }
+      }
+    },
+    "Waiting for depth": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "等待深度資料"
+          }
+        }
+      }
+    },
+    "Ground not visible past %@ m": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "看不到 %@ 公尺外的地面"
+          }
+        }
+      }
+    },
+    "MindTheStep walk summary": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心台階 步行摘要"
+          }
+        }
+      }
+    },
+    "Share report with family": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "分享報告給家人"
+          }
+        }
+      }
+    },
+    "No hazards yet": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "還沒有紀錄"
+          }
+        }
+      }
+    },
+    "Steps and drops you pass are saved here automatically.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "走過的台階和落差會自動存在這裡。"
+          }
+        }
+      }
+    },
+    "Confirm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "確認"
+          }
+        }
+      }
+    },
+    "Not real": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "誤判"
+          }
+        }
+      }
+    },
+    "Delete": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "刪除"
+          }
+        }
+      }
+    },
+    "Hazards": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "落差紀錄"
+          }
+        }
+      }
+    },
+    "Swipe right to confirm, left for a false alarm. Tap one to check it against a tape measure.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往右滑確認，往左滑標為誤判。點進去可以用捲尺驗證。"
+          }
+        }
+      }
+    },
+    "Start a new walk": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "開始新的步行"
+          }
+        }
+      }
+    },
+    "Clear all hazards": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "清除所有紀錄"
+          }
+        }
+      }
+    },
+    "Location and photos stay on this iPhone unless you share them.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "位置和照片只存在這支 iPhone，除非你主動分享。"
+          }
+        }
+      }
+    },
+    "Delete every saved hazard and photo?": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "要刪除所有紀錄和照片嗎？"
+          }
+        }
+      }
+    },
+    "Delete all": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "全部刪除"
+          }
+        }
+      }
+    },
+    "Today's walk": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "今天的步行"
+          }
+        }
+      }
+    },
+    "Measured on-device with iPhone LiDAR · MindTheStep": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由 iPhone LiDAR 在裝置上量測 · 小心台階"
+          }
+        }
+      }
+    },
+    "steps & drops": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "台階與落差"
+          }
+        }
+      }
+    },
+    "confirmed": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已確認"
+          }
+        }
+      }
+    },
+    "largest drop": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最大落差"
+          }
+        }
+      }
+    },
+    "staircases": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "樓梯"
+          }
+        }
+      }
+    },
+    "LiDAR vs tape measure: ±%@ cm average over %lld checks": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LiDAR 與捲尺平均誤差 ±%@ 公分（%lld 次驗證）"
+          }
+        }
+      }
+    },
+    "new": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "新"
+          }
+        }
+      }
+    },
+    "false alarm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "誤判"
+          }
+        }
+      }
+    },
+    "tape %lld cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捲尺 %lld 公分"
+          }
+        }
+      }
+    },
+    "Detected": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "偵測結果"
+          }
+        }
+      }
+    },
+    "Type": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "類型"
+          }
+        }
+      }
+    },
+    "LiDAR height": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LiDAR 高度"
+          }
+        }
+      }
+    },
+    "Warned at": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "提醒距離"
+          }
+        }
+      }
+    },
+    "Time": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "時間"
+          }
+        }
+      }
+    },
+    "Is it real?": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "是真的嗎？"
+          }
+        }
+      }
+    },
+    "Unreviewed": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未確認"
+          }
+        }
+      }
+    },
+    "Confirmed": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已確認"
+          }
+        }
+      }
+    },
+    "False alarm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "誤判"
+          }
+        }
+      }
+    },
+    "Tape-measured height": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "捲尺量的高度"
+          }
+        }
+      }
+    },
+    "cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "公分"
+          }
+        }
+      }
+    },
+    "Save": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "儲存"
+          }
+        }
+      }
+    },
+    "LiDAR error": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "LiDAR 誤差"
+          }
+        }
+      }
+    },
+    "Validate": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "驗證"
+          }
+        }
+      }
+    },
+    "Measure the real step with a tape to check the LiDAR reading.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用捲尺量實際高度，檢查 LiDAR 的讀數。"
+          }
+        }
+      }
+    },
+    "over 15 cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "超過 15 公分"
+          }
+        }
+      }
+    },
+    "8–15 cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "8–15 公分"
+          }
+        }
+      }
+    },
+    "%lld saved": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已存 %lld 筆"
+          }
+        }
+      }
+    },
+    "Hazard map": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "落差地圖"
+          }
+        }
+      }
+    },
+    "Daughter": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "女兒"
+          }
+        }
+      }
+    },
+    "now": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "現在"
+          }
+        }
+      }
+    },
+    "Name": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "名稱"
+          }
+        }
+      }
+    },
+    "Who gets alerts": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "誰會收到通知"
+          }
+        }
+      }
+    },
+    "Auto-notify family": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "自動通知家人"
+          }
+        }
+      }
+    },
+    "For steps ≥ %lld cm": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "台階 ≥ %lld 公分時通知"
+          }
+        }
+      }
+    },
+    "Sends the step type, height and time only. No location or photo. At most one alert every 30 seconds.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "只傳送台階類型、高度和時間，不含位置和照片。每 30 秒最多一則。"
+          }
+        }
+      }
+    },
+    "Channel": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "頻道"
+          }
+        }
+      }
+    },
+    "Open this link (or subscribe in the free ntfy app) to get MindTheStep alerts.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "打開這個連結（或在免費的 ntfy App 訂閱），就能收到小心台階的通知。"
+          }
+        }
+      }
+    },
+    "Send setup link to %@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳設定連結給%@"
+          }
+        }
+      }
+    },
+    "Send test alert": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳送測試通知"
+          }
+        }
+      }
+    },
+    "Delivery": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳送方式"
+          }
+        }
+      }
+    },
+    "%@ opens the link in a browser, or subscribes to the channel in the free ntfy app for push notifications.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@用瀏覽器打開連結，或在免費的 ntfy App 訂閱這個頻道，就能收到推播。"
+          }
+        }
+      }
+    },
+    "Recent alerts": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "最近的通知"
+          }
+        }
+      }
+    },
+    "Alerts sent to %@ will appear here.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳給%@的通知會顯示在這裡。"
+          }
+        }
+      }
+    },
+    "Sending to %@…": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "正在傳給%@…"
+          }
+        }
+      }
+    },
+    "Sent to %@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已傳給%@"
+          }
+        }
+      }
+    },
+    "Couldn't reach %@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "無法傳給%@"
+          }
+        }
+      }
+    },
+    "Sending…": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳送中…"
+          }
+        }
+      }
+    },
+    "Delivered ✓": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已送達 ✓"
+          }
+        }
+      }
+    },
+    "Failed. Check internet.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳送失敗，請檢查網路。"
+          }
+        }
+      }
+    },
+    "Delivered": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已送達"
+          }
+        }
+      }
+    },
+    "Not delivered": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "未送達"
+          }
+        }
+      }
+    },
+    "stairs going up": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往上的樓梯"
+          }
+        }
+      }
+    },
+    "stairs going down": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "往下的樓梯"
+          }
+        }
+      }
+    },
+    "a %lld cm step up": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一個 %lld 公分的往上台階"
+          }
+        }
+      }
+    },
+    "a %lld cm step down": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "一個 %lld 公分的往下台階"
+          }
+        }
+      }
+    },
+    "MindTheStep warned about %@ at %@. Alert given in time.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心台階在 %2$@ 提醒了%1$@，及時提醒。"
+          }
+        }
+      }
+    },
+    "MindTheStep alert": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心台階提醒"
+          }
+        }
+      }
+    },
+    "MindTheStep test": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心台階測試"
+          }
+        }
+      }
+    },
+    "This is a test alert from MindTheStep.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這是小心台階的測試通知。"
+          }
+        }
+      }
+    },
+    "Note for %@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "給%@的短訊"
+          }
+        }
+      }
+    },
+    "Send to %@": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳給%@"
+          }
+        }
+      }
+    },
+    "Turn today's walk into a short, friendly note for %@. Written on this iPhone; nothing is uploaded to write it.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "把今天的步行整理成一段給%@的溫暖短訊。在這支 iPhone 上產生，不會上傳任何資料。"
+          }
+        }
+      }
+    },
+    "On-device AI": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裝置端 AI"
+          }
+        }
+      }
+    },
+    "Private · on this iPhone": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "隱私 · 只在這支 iPhone"
+          }
+        }
+      }
+    },
+    "Writing…": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "撰寫中…"
+          }
+        }
+      }
+    },
+    "Write with Apple Intelligence": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "用 Apple Intelligence 撰寫"
+          }
+        }
+      }
+    },
+    "Sent to %@ ✓": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "已傳給%@ ✓"
+          }
+        }
+      }
+    },
+    "Couldn't send": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "傳送失敗"
+          }
+        }
+      }
+    },
+    "Written by Apple's on-device model from today's hazard log.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "由 Apple 裝置端模型根據今天的紀錄撰寫。"
+          }
+        }
+      }
+    },
+    "%@. Showing a standard summary.": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "%@，改顯示一般摘要。"
+          }
+        }
+      }
+    },
+    "Apple Intelligence isn't ready on this iPhone": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "這支 iPhone 的 Apple Intelligence 尚未就緒"
+          }
+        }
+      }
+    },
+    "The model returned nothing": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "模型沒有回應"
+          }
+        }
+      }
+    },
+    "On-device AI error": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "裝置端 AI 發生錯誤"
+          }
+        }
+      }
+    },
+    "Needs iOS 26 or later": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "需要 iOS 26 以上"
+          }
+        }
+      }
+    },
+    "MindTheStep": {
+      "localizations": {
+        "zh-Hant": {
+          "stringUnit": {
+            "state": "translated",
+            "value": "小心台階"
+          }
+        }
+      }
+    }
+  }
+}
