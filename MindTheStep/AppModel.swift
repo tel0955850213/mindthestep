@@ -15,7 +15,6 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
     @Published var tracking = "—"
     @Published var points = 0
     @Published var showDiagnostics = false
-    @Published var showHazards = false
     let store = HazardStore()
     let family = FamilyNotifier()
     @Published var familyNotice: FamilyNotice?
@@ -149,6 +148,7 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
         Task {
             let ok = await family.send(text)
             await MainActor.run {
+                self.family.log(text, delivered: ok)
                 guard self.familyNotice?.id == notice.id else { return }
                 self.familyNotice = FamilyNotice(id: notice.id, state: ok ? .delivered : .failed, message: text)
             }

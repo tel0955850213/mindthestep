@@ -1,85 +1,78 @@
 import MapKit
 import SwiftUI
 
-/// Hazard Memory: walk summary for family, the hazard log, and a map.
-struct HazardSheet: View {
-    @ObservedObject var store: HazardStore
-    @ObservedObject var family: FamilyNotifier
-    @State private var tab = 0
-    @Environment(\.dismiss) private var dismiss
+// MARK: - Report tab
 
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                Picker("View", selection: $tab) {
-                    Text("Summary").tag(0)
-                    Text("Hazards").tag(1)
-                    Text("Map").tag(2)
-                    Text("Family").tag(3)
-                }
-                .pickerStyle(.segmented)
-                .padding()
-
-                switch tab {
-                case 0: SummaryView(store: store)
-                case 1: HazardList(store: store)
-                case 2: HazardMap(store: store)
-                default: FamilySettingsView(family: family)
-                }
-            }
-            .navigationTitle("Hazard Memory")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) { Button("Done") { dismiss() } }
-            }
-        }
-    }
-}
-
-// MARK: - Summary (Family report)
-
-struct SummaryView: View {
+/// Today's walk at a glance, shareable with family, plus every hazard to review.
+struct ReportTab: View {
     @ObservedObject var store: HazardStore
     @State private var confirmClear = false
 
     var body: some View {
         let summary = WalkSummary(start: store.walkStart, hazards: store.walkHazards)
-        ScrollView {
-            VStack(spacing: 16) {
-                SummaryCard(summary: summary)
-                ShareLink(item: renderImage(summary), message: Text(summary.shareText),
-                          preview: SharePreview("MindTheStep walk summary", image: renderImage(summary))) {
-                    Label("Share with family", systemImage: "square.and.arrow.up")
-                        .font(.headline)
+        NavigationStack {
+            List {
+                Section {
+                    SummaryCard(summary: summary)
+                        .listRowInsets(EdgeInsets())
+                        .listRowBackground(Color.clear)
+                }
+                Section {
+                    ShareLink(item: renderImage(summary), message: Text(summary.shareText),
+                              preview: SharePreview("MindTheStep walk summary", image: renderImage(summary))) {
+                        Label("Share report with family", systemImage: "square.and.arrow.up")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
+                    }
+                    .listRowBackground(Palette.clear)
+                    .foregroundStyle(.white)
+                }
+                Section {
+                    if store.hazards.isEmpty {
+                        VStack(spacing: 8) {
+                            Image(systemName: "figure.walk").font(.largeTitle).foregroundStyle(.secondary)
+                            Text("No hazards yet").font(.headline)
+                            Text("Steps and drops you pass are saved here automatically.")
+                                .font(.subheadline).foregroundStyle(.secondary).multilineTextAlignment(.center)
+                        }
                         .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Palette.clear, in: RoundedRectangle(cornerRadius: 16))
-                        .foregroundStyle(.white)
+                        .padding(.vertical, 20)
+                    } else {
+                        ForEach(store.hazards) { h in
+                            NavigationLink { HazardDetail(store: store, id: h.id) } label: {
+                                HazardRow(store: store, hazard: h)
+                            }
+                            .swipeActions(edge: .leading) {
+                                Button { store.setStatus(h.id, .confirmed) } label: { Label("Confirm", systemImage: "checkmark") }
+                                    .tint(Palette.clear)
+                            }
+                            .swipeActions(edge: .trailing) {
+                                Button { store.setStatus(h.id, .dismissed) } label: { Label("Not real", systemImage: "xmark") }
+                                    .tint(Palette.unknown)
+                                Button(role: .destructive) { store.delete(h.id) } label: { Label("Delete", systemImage: "trash") }
+                            }
+                        }
+                    }
+                } header: {
+                    Text("Hazards")
+                } footer: {
+                    if !store.hazards.isEmpty {
+                        Text("Swipe right to confirm, left for a false alarm. Tap one to check it against a tape measure.")
+                    }
                 }
-                Button {
-                    store.newWalk()
-                } label: {
-                    Label("Start a new walk", systemImage: "arrow.counterclockwise")
-                        .frame(maxWidth: .infinity)
+                Section {
+                    Button { store.newWalk() } label: { Label("Start a new walk", systemImage: "arrow.counterclockwise") }
+                    Button(role: .destructive) { confirmClear = true } label: { Label("Clear all hazards", systemImage: "trash") }
+                } footer: {
+                    Text("Location and photos stay on this iPhone unless you share them.")
                 }
-                .buttonStyle(.bordered)
-                Button(role: .destructive) {
-                    confirmClear = true
-                } label: {
-                    Label("Clear all hazards", systemImage: "trash")
-                        .frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-                .confirmationDialog("Delete every saved hazard and photo?", isPresented: $confirmClear,
-                                    titleVisibility: .visible) {
-                    Button("Delete all", role: .destructive) { store.clearAll() }
-                }
-                Text("Location and photos stay on this iPhone unless you share them.")
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-                    .multilineTextAlignment(.center)
             }
-            .padding()
+            .navigationTitle("Report")
+            .confirmationDialog("Delete every saved hazard and photo?", isPresented: $confirmClear,
+                                titleVisibility: .visible) {
+                Button("Delete all", role: .destructive) { store.clearAll() }
+            }
         }
     }
 
@@ -134,35 +127,6 @@ struct SummaryCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(12)
         .background(color.opacity(0.25), in: RoundedRectangle(cornerRadius: 14))
-    }
-}
-
-// MARK: - List
-
-struct HazardList: View {
-    @ObservedObject var store: HazardStore
-
-    var body: some View {
-        if store.hazards.isEmpty {
-            ContentUnavailableView("No hazards yet", systemImage: "figure.walk",
-                                   description: Text("Steps and drops you pass are saved here automatically."))
-        } else {
-            List {
-                ForEach(store.hazards) { h in
-                    NavigationLink { HazardDetail(store: store, id: h.id) } label: { HazardRow(store: store, hazard: h) }
-                        .swipeActions(edge: .leading) {
-                            Button { store.setStatus(h.id, .confirmed) } label: { Label("Confirm", systemImage: "checkmark") }
-                                .tint(Palette.clear)
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button { store.setStatus(h.id, .dismissed) } label: { Label("Not real", systemImage: "xmark") }
-                                .tint(Palette.unknown)
-                            Button(role: .destructive) { store.delete(h.id) } label: { Label("Delete", systemImage: "trash") }
-                        }
-                }
-            }
-            .listStyle(.plain)
-        }
     }
 }
 
@@ -258,31 +222,59 @@ struct HazardDetail: View {
     }
 }
 
-// MARK: - Map
+// MARK: - Map tab
 
-struct HazardMap: View {
+struct MapTab: View {
     @ObservedObject var store: HazardStore
 
     var body: some View {
         let pins = store.hazards.filter { $0.status != .dismissed && $0.coordinate != nil }
-        Map {
-            UserAnnotation()
-            ForEach(pins) { h in
-                Annotation(String(format: "%.0f cm", h.heightCm), coordinate: h.coordinate!) {
-                    Image(systemName: h.up ? "arrow.up" : "arrow.down")
-                        .font(.caption.weight(.black))
-                        .foregroundStyle(.white)
-                        .padding(7)
-                        .background(h.heightCm > 15 ? Palette.danger : Palette.caution, in: Circle())
+        NavigationStack {
+            Map {
+                UserAnnotation()
+                ForEach(pins) { h in
+                    Annotation(String(format: "%.0f cm", h.heightCm), coordinate: h.coordinate!) {
+                        Image(systemName: h.up ? "arrow.up" : "arrow.down")
+                            .font(.caption.weight(.black))
+                            .foregroundStyle(.white)
+                            .padding(7)
+                            .background(h.heightCm > 15 ? Palette.danger : Palette.caution, in: Circle())
+                    }
                 }
             }
-        }
-        .overlay(alignment: .bottom) {
-            if pins.isEmpty {
-                Text("Hazards with a location appear here.")
-                    .font(.footnote).padding(10)
-                    .background(.ultraThinMaterial, in: Capsule()).padding()
+            .overlay(alignment: .top) {
+                HStack(spacing: 14) {
+                    legend(Palette.danger, "over 15 cm")
+                    legend(Palette.caution, "8–15 cm")
+                    Text("\(pins.count) saved").foregroundStyle(.secondary)
+                }
+                .font(.footnote.weight(.semibold))
+                .padding(.horizontal, 14).padding(.vertical, 8)
+                .background(.regularMaterial, in: Capsule())
+                .padding(.top, 8)
             }
+            .navigationTitle("Hazard map")
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    private func legend(_ color: Color, _ text: String) -> some View {
+        HStack(spacing: 5) {
+            Circle().fill(color).frame(width: 10, height: 10)
+            Text(text)
+        }
+    }
+}
+
+// MARK: - Family tab
+
+struct FamilyTab: View {
+    @ObservedObject var family: FamilyNotifier
+
+    var body: some View {
+        NavigationStack {
+            FamilySettingsView(family: family)
+                .navigationTitle("Family")
         }
     }
 }

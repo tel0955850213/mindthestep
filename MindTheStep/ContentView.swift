@@ -63,6 +63,49 @@ enum Palette {
 
 struct ContentView: View {
     @StateObject private var model = AppModel()
+
+    var body: some View {
+        MainTabs(model: model, store: model.store)
+    }
+}
+
+/// Four tabs: live detection, the walk report, the hazard map, and family alerts.
+struct MainTabs: View {
+    @ObservedObject var model: AppModel
+    @ObservedObject var store: HazardStore
+    @AppStorage("ui.tab") private var tab = 0
+    @AppStorage("onboarded") private var onboarded = false
+
+    var body: some View {
+        TabView(selection: $tab) {
+            Tab("Detect", systemImage: "dot.viewfinder", value: 0) {
+                DetectView(model: model)
+            }
+            Tab("Report", systemImage: "list.clipboard.fill", value: 1) {
+                ReportTab(store: store)
+            }
+            .badge(store.walkHazards.filter { $0.status == .pending }.count)
+            Tab("Map", systemImage: "map.fill", value: 2) {
+                MapTab(store: store)
+            }
+            Tab("Family", systemImage: "person.2.fill", value: 3) {
+                FamilyTab(family: model.family)
+            }
+        }
+        .tint(Palette.clear)
+        .sheet(isPresented: Binding(get: { !onboarded }, set: { _ in })) {
+            OnboardingView { onboarded = true }
+                .interactiveDismissDisabled()
+        }
+        .onAppear {
+            UIApplication.shared.isIdleTimerDisabled = true
+            model.start()
+        }
+    }
+}
+
+struct DetectView: View {
+    @ObservedObject var model: AppModel
     @State private var shakes: CGFloat = 0
     @State private var flash: Double = 0
 
@@ -116,13 +159,61 @@ struct ContentView: View {
             flash = 0.35
             withAnimation(.easeOut(duration: 0.7)) { flash = 0 }
         }
-        .preferredColorScheme(.dark)
-        .sheet(isPresented: $model.showHazards) {
-            HazardSheet(store: model.store, family: model.family)
+    }
+}
+
+/// First launch: how to hold the phone, what the alerts mean, and what this is not.
+struct OnboardingView: View {
+    let done: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 22) {
+            VStack(alignment: .leading, spacing: 6) {
+                Image(systemName: "figure.walk")
+                    .font(.system(size: 44, weight: .bold))
+                    .foregroundStyle(Palette.clear)
+                Text("MindTheStep")
+                    .font(.system(size: 36, weight: .heavy, design: .rounded))
+                Text("An early warning for steps and drops ahead of you.")
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            .padding(.top, 24)
+
+            row("iphone.gen3", "Hold at chest height",
+                "Tilt the phone forward so the camera sees the ground 1–2 m ahead. A cane clip or lanyard works well.")
+            row("waveform", "Feel it, hear it",
+                "A buzz and a short voice cue warn you before you reach a step. Works without internet.")
+            row("person.2.fill", "Keep family in the loop",
+                "Big steps can notify a family member. Only the step size and time are sent, never your location.")
+
+            Spacer()
+            Text("MindTheStep is a prototype, not a medical device or a replacement for a cane, a guide, or your own attention.")
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+            Button(action: done) {
+                Text("Start walking")
+                    .font(.title3.weight(.bold))
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 16)
+                    .background(Palette.clear, in: RoundedRectangle(cornerRadius: 18, style: .continuous))
+                    .foregroundStyle(.white)
+            }
         }
-        .onAppear {
-            UIApplication.shared.isIdleTimerDisabled = true
-            model.start()
+        .padding(24)
+    }
+
+    private func row(_ icon: String, _ title: String, _ text: String) -> some View {
+        HStack(alignment: .top, spacing: 16) {
+            Image(systemName: icon)
+                .font(.title2.weight(.semibold))
+                .foregroundStyle(Palette.clear)
+                .frame(width: 36)
+            VStack(alignment: .leading, spacing: 3) {
+                Text(title).font(.headline)
+                Text(text).font(.subheadline).foregroundStyle(.secondary)
+            }
         }
     }
 }
@@ -174,18 +265,6 @@ struct TopBar: View {
             .background(.ultraThinMaterial, in: Capsule())
             .accessibilityLabel("LiDAR running at \(Int(model.depthFPS)) frames per second")
 
-            RoundButton(icon: "mappin.and.ellipse", label: "Hazard memory") {
-                model.showHazards = true
-            }
-            .overlay(alignment: .topTrailing) {
-                let n = model.store.walkHazards.filter { $0.status != .dismissed }.count
-                if n > 0 {
-                    Text("\(n)").font(.caption2.weight(.black))
-                        .padding(.horizontal, 5).padding(.vertical, 1)
-                        .background(Palette.danger, in: Capsule())
-                        .offset(x: 4, y: -4)
-                }
-            }
             RoundButton(icon: model.speechOn ? "speaker.wave.2.fill" : "speaker.slash.fill",
                         label: model.speechOn ? "Mute voice" : "Unmute voice") {
                 model.speechOn.toggle()

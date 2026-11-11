@@ -18,6 +18,7 @@
 		835F6D77C6E06960E4DB07CB /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A529FC5D815EC58326826C5 /* ContentView.swift */; };
 		939DED2D37B9B7586C8CAD74 /* FamilyNotifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4A9F132D27106D5E47D613 /* FamilyNotifier.swift */; };
 		9F8EB652EEB2BF283C24AC4C /* MindTheStepApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */; };
+		F26D15A1FDB3EF3B405880AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D7B492948E59C1E9EB7ECD14 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -43,6 +44,7 @@
 		B228E0F1DFDD37F07C571F30 /* MindTheStepApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MindTheStepApp.swift; sourceTree = "<group>"; };
 		CD1AAF86DDDBC9CFAD78E8B6 /* HazardViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HazardViews.swift; sourceTree = "<group>"; };
 		D2461BAE670353A455FE0D0E /* LocationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationProvider.swift; sourceTree = "<group>"; };
+		D7B492948E59C1E9EB7ECD14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DF78D6F5B5163243B6A806FD /* StepDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StepDetector.swift; sourceTree = "<group>"; };
 		EF4A9F132D27106D5E47D613 /* FamilyNotifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyNotifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -62,6 +64,7 @@
 			children = (
 				1C26D5D89B89469F7CBC5D40 /* AlertPlayer.swift */,
 				012F543AFF6AC43BAA46C518 /* AppModel.swift */,
+				D7B492948E59C1E9EB7ECD14 /* Assets.xcassets */,
 				1A529FC5D815EC58326826C5 /* ContentView.swift */,
 				493D8788A36F99663444E2F9 /* DepthProcessor.swift */,
 				EF4A9F132D27106D5E47D613 /* FamilyNotifier.swift */,
@@ -100,6 +103,7 @@
 			buildConfigurationList = 0E5C65E2E8BDC31E75E4A2EA /* Build configuration list for PBXNativeTarget "MindTheStep" */;
 			buildPhases = (
 				AAB945E3B9CCE1DAC874D153 /* Sources */,
+				E79472164A84CD20435F6018 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -168,6 +172,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		E79472164A84CD20435F6018 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F26D15A1FDB3EF3B405880AE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AAB945E3B9CCE1DAC874D153 /* Sources */ = {

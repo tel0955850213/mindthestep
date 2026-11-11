@@ -57,7 +57,24 @@ final class FamilyNotifier: ObservableObject {
     private var lastSent: Date?
     let cooldown: TimeInterval = 30
 
+    /// Alerts sent to family, newest first (kept on device).
+    struct SentAlert: Identifiable, Codable, Equatable {
+        var id = UUID()
+        var date: Date
+        var text: String
+        var delivered: Bool
+    }
+    @Published private(set) var sent: [SentAlert] = []
+
+    func log(_ text: String, delivered: Bool) {
+        sent.insert(SentAlert(date: Date(), text: text, delivered: delivered), at: 0)
+        if sent.count > 30 { sent.removeLast(sent.count - 30) }
+        if let data = try? JSONEncoder().encode(sent) { UserDefaults.standard.set(data, forKey: "family.sent") }
+    }
+
     init() {
+        if let data = UserDefaults.standard.data(forKey: "family.sent"),
+           let list = try? JSONDecoder().decode([SentAlert].self, from: data) { sent = list }
         if topic.isEmpty {
             let chars = Array("abcdefghjkmnpqrstuvwxyz23456789")
             topic = "mindthestep-" + String((0..<10).map { _ in chars.randomElement()! })
@@ -225,6 +242,29 @@ struct FamilySettingsView: View {
                 Text("Delivery")
             } footer: {
                 Text("\(family.name) opens the link in a browser, or subscribes to the channel in the free ntfy app for push notifications.")
+            }
+
+            Section("Recent alerts") {
+                if family.sent.isEmpty {
+                    Text("Alerts sent to \(family.name) will appear here.")
+                        .font(.subheadline).foregroundStyle(.secondary)
+                } else {
+                    ForEach(family.sent.prefix(10)) { a in
+                        HStack(alignment: .top, spacing: 10) {
+                            FamilyAvatar(name: family.name, size: 34)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(a.text).font(.subheadline)
+                                HStack(spacing: 4) {
+                                    Image(systemName: a.delivered ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
+                                        .foregroundStyle(a.delivered ? Palette.clear : Palette.danger)
+                                    Text(a.delivered ? "Delivered" : "Not delivered")
+                                    Text(a.date, style: .time)
+                                }
+                                .font(.caption).foregroundStyle(.secondary)
+                            }
+                        }
+                    }
+                }
             }
         }
     }
