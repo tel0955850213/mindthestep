@@ -94,14 +94,14 @@ final class AppModel: NSObject, ObservableObject, ARSessionDelegate {
             count = out.samples.count
             r = out.headingOK
                 ? detector.analyze(out.samples, cameraY: out.cameraY)
-                : DetectionResult(kind: .unknown, reason: "Tilt the phone forward")
+                : DetectionResult(kind: .unknown, reason: "Tilt the phone forward", warn: false)
             if r.kind == .stepUp || r.kind == .stepDown {
                 let xz = out.cameraXZ + out.heading * r.distanceM
                 marker = (SIMD3<Float>(xz.x, r.edgeHeightM + 0.01, xz.y),
                           atan2(-out.heading.x, -out.heading.y))
             }
         } else {
-            r = DetectionResult(kind: .unknown, reason: "No depth this frame")
+            r = DetectionResult(kind: .unknown, reason: "No depth this frame", warn: false)
         }
         let confirmed = tracker.update(r, now: t0)
         let isStep = confirmed.map { $0.kind == .stepUp || $0.kind == .stepDown } ?? false

@@ -1,11 +1,40 @@
 import Foundation
+import PhotosUI
 import SwiftUI
 import UIKit
 
 /// The family member who receives alerts.
 struct FamilyContact: Equatable {
     var name: String
-    var emoji: String
+}
+
+/// Family member's photo (Documents/FamilyAvatar.png, chosen in the Family tab), else their initial.
+struct FamilyAvatar: View {
+    let name: String
+    var size: CGFloat = 50
+    @AppStorage("family.avatarVersion") private var version = 0
+
+    static var fileURL: URL {
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("FamilyAvatar.png")
+    }
+
+    var body: some View {
+        let photo = version >= 0 ? UIImage(contentsOfFile: Self.fileURL.path) : nil
+        Group {
+            if let photo {
+                Image(uiImage: photo).resizable().scaledToFill()
+            } else {
+                Text(String(name.prefix(1)).uppercased())
+                    .font(.system(size: size * 0.45, weight: .bold, design: .rounded))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(LinearGradient(colors: [Palette.info, Palette.clear], startPoint: .top, endPoint: .bottom))
+            }
+        }
+        .frame(width: size, height: size)
+        .clipShape(Circle())
+        .overlay(Circle().stroke(.white.opacity(0.6), lineWidth: 1.5))
+    }
 }
 
 /// What the top banner shows after an alert goes to family.
@@ -20,8 +49,7 @@ struct FamilyNotice: Equatable {
 /// The family member opens the topic link in a browser or the ntfy app to receive alerts.
 /// Only the step type, height and time are sent. No location, no photo.
 final class FamilyNotifier: ObservableObject {
-    @AppStorage("family.name") var name = "Mom"
-    @AppStorage("family.emoji") var emoji = "👩"
+    @AppStorage("family.contactName") var name = "Daughter"
     @AppStorage("family.enabled") var enabled = true
     @AppStorage("family.minCm") var minCm = 12.0
     @AppStorage("family.topic") var topic = ""
@@ -36,7 +64,7 @@ final class FamilyNotifier: ObservableObject {
         }
     }
 
-    var contact: FamilyContact { FamilyContact(name: name, emoji: emoji) }
+    var contact: FamilyContact { FamilyContact(name: name) }
     var link: URL { URL(string: "https://ntfy.sh/\(topic)")! }
 
     func shouldNotify(_ r: DetectionResult) -> Bool {
@@ -77,11 +105,7 @@ struct FamilyBanner: View {
     var body: some View {
         HStack(spacing: 12) {
             ZStack(alignment: .bottomTrailing) {
-                Text(contact.emoji)
-                    .font(.system(size: 30))
-                    .frame(width: 50, height: 50)
-                    .background(LinearGradient(colors: [Color(red: 1, green: 0.8, blue: 0.6), Color(red: 0.98, green: 0.6, blue: 0.5)],
-                                               startPoint: .top, endPoint: .bottom), in: Circle())
+                FamilyAvatar(name: contact.name)
                 Image(systemName: icon)
                     .font(.system(size: 13, weight: .black))
                     .foregroundStyle(.white)
@@ -139,22 +163,33 @@ struct FamilyBanner: View {
 struct FamilySettingsView: View {
     @ObservedObject var family: FamilyNotifier
     @State private var testState: String?
-    private let emojis = ["👩", "👨", "👵", "👴", "👧", "🧑"]
+    @State private var photoItem: PhotosPickerItem?
+    @AppStorage("family.avatarVersion") private var avatarVersion = 0
 
     var body: some View {
         Form {
             Section {
-                HStack(spacing: 10) {
-                    ForEach(emojis, id: \.self) { e in
-                        Button { family.emoji = e } label: {
-                            Text(e).font(.system(size: 30))
-                                .frame(width: 46, height: 46)
-                                .background(family.emoji == e ? Palette.clear.opacity(0.4) : Color(white: 0.2), in: Circle())
-                        }
-                        .buttonStyle(.plain)
+                HStack(spacing: 14) {
+                    PhotosPicker(selection: $photoItem, matching: .images) {
+                        FamilyAvatar(name: family.name, size: 64)
+                            .overlay(alignment: .bottomTrailing) {
+                                Image(systemName: "camera.fill").font(.caption2)
+                                    .padding(5).background(Palette.info, in: Circle())
+                            }
+                    }
+                    TextField("Name", text: $family.name)
+                        .font(.title3.weight(.semibold))
+                }
+                .onChange(of: photoItem) {
+                    Task {
+                        guard let data = try? await photoItem?.loadTransferable(type: Data.self),
+                              let img = UIImage(data: data),
+                              let png = img.preparingThumbnail(of: CGSize(width: 256, height: 256 * img.size.height / img.size.width))?.pngData()
+                        else { return }
+                        try? png.write(to: FamilyAvatar.fileURL, options: .atomic)
+                        await MainActor.run { avatarVersion += 1 }
                     }
                 }
-                TextField("Name", text: $family.name)
             } header: {
                 Text("Who gets alerts")
             }

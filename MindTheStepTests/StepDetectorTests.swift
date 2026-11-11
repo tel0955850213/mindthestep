@@ -153,6 +153,13 @@ final class StepDetectorTests: XCTestCase {
         XCTAssertEqual(r.kind, .stepDown)
     }
 
+    func testTrackerIgnoresUsageStateUnknowns() {
+        // Field test 4: "tilt the phone" / "can't see ground" kept firing the red alert while standing still.
+        var t = StepTracker()
+        let tilt = DetectionResult(kind: .unknown, reason: "Tilt the phone forward", warn: false)
+        for i in 0..<10 { XCTAssertNil(t.update(tilt, now: Double(i) * 0.02)) }
+    }
+
     func testTrackerNeedsPersistenceAndCoolsDown() {
         var t = StepTracker()
         let step = DetectionResult(kind: .stepDown, heightCm: -15, distanceM: 1.2)

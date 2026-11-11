@@ -84,7 +84,8 @@ struct ContentView: View {
                                startPoint: .top, endPoint: .bottom)
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
-                AlertGlow(active: recentAlert != nil, flash: flash)
+                AlertGlow(active: recentAlert.map { $0.kind == .stepUp || $0.kind == .stepDown } ?? false,
+                          flash: flash)
 
                 VStack(spacing: 12) {
                     TopBar(model: model)

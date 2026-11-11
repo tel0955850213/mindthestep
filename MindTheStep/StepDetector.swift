@@ -26,13 +26,16 @@ struct DetectionResult: Equatable {
     var profileCm: [Float?] = []
     var binSize: Float = 0.05
     var minForward: Float = 0.3
+    /// For UNKNOWN: true when something may really be ahead (obstacle, hidden drop), false when
+    /// it's just a usage state (phone tilted wrong, no depth yet). Only `warn` unknowns buzz.
+    var warn = true
     /// Two or more steps the same way in a row.
     var isStairs = false
     /// World height of the ground reference and of the step's upper surface (for AR markers).
     var groundRefM: Float = 0
     var edgeHeightM: Float = 0
 
-    static let empty = DetectionResult(kind: .unknown, reason: "Waiting for depth")
+    static let empty = DetectionResult(kind: .unknown, reason: "Waiting for depth", warn: false)
 }
 
 struct DetectorConfig {
@@ -87,6 +90,7 @@ struct StepDetector {
             if i >= 0 && i < binCount { bins[i].append(s.height) }
         }
 
+        func quiet(_ r: DetectionResult) -> DetectionResult { var r = r; r.warn = false; return r }
         func base(_ kind: HazardKind, _ reason: String, profile: [Float?]) -> DetectionResult {
             DetectionResult(kind: kind, reason: reason, profileCm: profile,
                             binSize: c.binSize, minForward: c.minForward)
@@ -98,15 +102,15 @@ struct StepDetector {
         guard let first = provisionalValid.first,
               forward(ofBin: first) <= c.maxReferenceStart,
               provisionalValid.count >= c.referenceBins else {
-            return base(.unknown, "Can't see the ground ahead",
-                        profile: Array(repeating: nil, count: binCount))
+            return quiet(base(.unknown, "Can't see the ground ahead",
+                        profile: Array(repeating: nil, count: binCount)))
         }
         let ref = median(provisionalValid.prefix(c.referenceBins).map { provisional[$0]! })
         // A walking phone sits roughly 0.7–2 m above the floor. If the "ground" is much closer,
         // we're looking at a table or seat, not the walking surface.
         if let cameraY, cameraY - ref < c.minCameraHeight || cameraY - ref > c.maxCameraHeight {
-            return base(.unknown, "Hold the phone at chest height",
-                        profile: Array(repeating: nil, count: binCount))
+            return quiet(base(.unknown, "Hold the phone at chest height",
+                        profile: Array(repeating: nil, count: binCount)))
         }
 
         // 2. Keep only walkable surface: drop walls/objects far above the reference, and drop
@@ -122,7 +126,7 @@ struct StepDetector {
         let profile = medians.map { $0.map { ($0 - ref) * 100 } }
         let valid: [(i: Int, h: Float)] = medians.indices.compactMap { i in medians[i].map { (i, $0) } }
         guard valid.count >= 2 * c.minValidInWindow else {
-            return base(.unknown, "Not enough ground points", profile: profile)
+            return quiet(base(.unknown, "Not enough ground points", profile: profile))
         }
 
         // 3. Nearest abrupt height change between two flat surfaces.
@@ -236,9 +240,9 @@ struct StepTracker {
     mutating func update(_ r: DetectionResult, now: TimeInterval) -> DetectionResult? {
         history.append(r)
         if history.count > window { history.removeFirst(history.count - window) }
-        guard r.kind == .stepUp || r.kind == .stepDown || r.kind == .unknown else { return nil }
+        guard r.kind == .stepUp || r.kind == .stepDown || (r.kind == .unknown && r.warn) else { return nil }
 
-        let same = history.filter { $0.kind == r.kind }
+        let same = history.filter { $0.kind == r.kind && (r.kind != .unknown || $0.warn) }
         guard same.count >= (r.kind == .unknown ? requiredUnknown : required) else { return nil }
         if r.kind != .unknown {
             let hs = same.map { $0.heightCm }
